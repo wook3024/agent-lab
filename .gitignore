@@ -1,0 +1,9 @@
+.DS_Store
+.obsidian/
+__pycache__/
+*.pyc
+
+artifacts/benchmark_runs/**/workspace/
+artifacts/benchmark_runs/**/*.jsonl
+artifacts/benchmark_runs/**/*.stderr.txt
+artifacts/benchmark_runs/**/*_last_message.txt

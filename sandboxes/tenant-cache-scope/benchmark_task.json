@@ -1,0 +1,40 @@
+{
+  "id": "tenant-cache-scope",
+  "title": "Restore tenant isolation in cached project summaries",
+  "task_type": "bugfix",
+  "complexity_axes": [
+    "cross-file-change",
+    "multi-tenant-isolation",
+    "docs-sync",
+    "test-required"
+  ],
+  "prompt": "Project summary caching leaks data across tenants because the cache key ignores tenant scope. Fix the bug across the cache key builder, summary service, and docs. Keep the solution small, keep tests meaningful, and do not disable caching.",
+  "must_change_files": [
+    "app/cache_keys.py",
+    "app/project_summary_service.py",
+    "docs/caching.md"
+  ],
+  "may_change_files": [
+    "docs/multi-tenant-architecture.md",
+    "tests/test_tenant_cache_scope.py"
+  ],
+  "must_not": [
+    "disable caching",
+    "store tenant state globally",
+    "rewrite unrelated files"
+  ],
+  "gate_commands": [
+    {
+      "name": "tests_pass",
+      "cmd": "python3 -m unittest discover -s tests -v"
+    },
+    {
+      "name": "compile_pass",
+      "cmd": "python3 -m compileall app tests"
+    },
+    {
+      "name": "docs_sync_check",
+      "cmd": "python3 scripts/docs_check.py"
+    }
+  ]
+}

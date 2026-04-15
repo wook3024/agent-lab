@@ -1,0 +1,23 @@
+{
+  "tests_pass": {
+    "passed": true,
+    "stdout": "",
+    "stderr": "test_enabled_flag_keeps_enabled_variant (test_flag_rollout_fallback.FlagRolloutFallbackTest) ... ok\ntest_missing_or_disabled_flag_keeps_disabled_variant (test_flag_rollout_fallback.FlagRolloutFallbackTest) ... ok\ntest_record_exposure_deduplicates_only_within_shared_context (test_flag_rollout_fallback.FlagRolloutFallbackTest) ... ok\ntest_remote_failure_fails_closed_and_deduplicates_exposure (test_flag_rollout_fallback.FlagRolloutFallbackTest) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+    "returncode": 0,
+    "elapsed_seconds": 0.045
+  },
+  "compile_pass": {
+    "passed": true,
+    "stdout": "Listing 'app'...\nListing 'tests'...\n",
+    "stderr": "",
+    "returncode": 0,
+    "elapsed_seconds": 0.039
+  },
+  "docs_sync_check": {
+    "passed": true,
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0,
+    "elapsed_seconds": 0.028
+  }
+}

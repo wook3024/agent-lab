@@ -1,0 +1,74 @@
+{
+  "id": "complex-case-004-search-schema-migration",
+  "task_type": "migration",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "migration-safety",
+    "backfill",
+    "performance-risk",
+    "docs-sync"
+  ],
+  "prompt": "검색 인덱스 스키마를 확장해 새 필드를 추가해야 한다. index schema, backfill job, query service, migration 테스트, 재색인 운영 문서를 함께 수정하라. 기존 검색 결과 회귀와 재색인 중단 위험을 최소화해야 한다.",
+  "context": {
+    "files": [
+      "search/index_schema.ts",
+      "search/jobs/backfill_index.ts",
+      "backend/search/search_service.ts",
+      "tests/search/schema_migration.test.ts"
+    ],
+    "docs": [
+      "docs/search-indexing.md",
+      "ops/runbooks/search-reindex.md"
+    ],
+    "recent_changes": [
+      "search result ranking 실험",
+      "index alias rollover 도입"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "search/index_schema.ts",
+      "search/jobs/backfill_index.ts",
+      "backend/search/search_service.ts"
+    ],
+    "may_change_files": [
+      "tests/search/schema_migration.test.ts",
+      "docs/search-indexing.md",
+      "ops/runbooks/search-reindex.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "drop existing index without rollback path",
+      "skip compatibility handling for old documents",
+      "hardcode environment-specific index names"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "migration_safety_check",
+      "performance_smoke_check",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "old documents remain searchable during migration",
+      "reindex runbook includes rollback path"
+    ]
+  },
+  "review_focus": [
+    "schema compatibility strategy",
+    "backfill idempotency",
+    "query behavior during partial migration"
+  ],
+  "graders": [
+    "requirements_met",
+    "migration_safe",
+    "tests_present",
+    "review_high_findings_zero",
+    "docs_updated"
+  ]
+}

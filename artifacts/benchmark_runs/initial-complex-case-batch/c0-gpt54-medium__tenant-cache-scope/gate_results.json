@@ -1,0 +1,20 @@
+{
+  "tests_pass": {
+    "passed": true,
+    "stdout": "",
+    "stderr": "test_project_summary_cache_stays_tenant_scoped (test_tenant_cache_scope.TenantCacheScopeTest) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n",
+    "returncode": 0
+  },
+  "compile_pass": {
+    "passed": true,
+    "stdout": "Listing 'app'...\nListing 'tests'...\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  "docs_sync_check": {
+    "passed": true,
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  }
+}

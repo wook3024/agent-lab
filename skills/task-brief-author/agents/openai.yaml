@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Brief Author"
+  short_description: "Normalize complex requests into strict task briefs"
+  default_prompt: "Use $task-brief-author to turn this request into a strict complex-case task brief."

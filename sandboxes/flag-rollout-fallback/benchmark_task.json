@@ -1,0 +1,41 @@
+{
+  "id": "flag-rollout-fallback",
+  "title": "Fail closed for feature flags and keep exposure telemetry deduplicated",
+  "task_type": "bugfix",
+  "complexity_axes": [
+    "cross-file-change",
+    "operational-safety",
+    "telemetry",
+    "docs-sync",
+    "test-required"
+  ],
+  "prompt": "Remote config failures incorrectly enable a rollout flag and emit duplicate exposure events. Fix the evaluator, the telemetry path, and the docs. Keep the change scoped and do not hardcode production values.",
+  "must_change_files": [
+    "app/flags.py",
+    "app/telemetry.py",
+    "docs/feature_flags.md"
+  ],
+  "may_change_files": [
+    "ops/feature_rollout.md",
+    "tests/test_flag_rollout_fallback.py"
+  ],
+  "must_not": [
+    "disable telemetry",
+    "default to enabled on fetch failure",
+    "rewrite the task into a different architecture"
+  ],
+  "gate_commands": [
+    {
+      "name": "tests_pass",
+      "cmd": "python3 -m unittest discover -s tests -v"
+    },
+    {
+      "name": "compile_pass",
+      "cmd": "python3 -m compileall app tests"
+    },
+    {
+      "name": "docs_sync_check",
+      "cmd": "python3 scripts/docs_check.py"
+    }
+  ]
+}

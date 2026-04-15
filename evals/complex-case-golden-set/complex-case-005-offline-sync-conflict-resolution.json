@@ -1,0 +1,73 @@
+{
+  "id": "complex-case-005-offline-sync-conflict-resolution",
+  "task_type": "implementation",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "shared-protocol",
+    "state-resolution",
+    "test-required",
+    "docs-sync"
+  ],
+  "prompt": "모바일 오프라인 편집 후 재동기화할 때 동시 수정 충돌이 서버와 클라이언트에서 다르게 해석되어 데이터가 덮어써진다. merge engine, 서버 conflict resolver, shared sync protocol, 충돌 테스트, 오프라인 동기화 문서를 함께 수정하라.",
+  "context": {
+    "files": [
+      "mobile/sync/merge_engine.ts",
+      "backend/sync/conflict_resolver.ts",
+      "shared/protocol/sync.ts",
+      "tests/sync/conflict_resolution.test.ts"
+    ],
+    "docs": [
+      "docs/offline-sync.md",
+      "docs/mobile-data-flow.md"
+    ],
+    "recent_changes": [
+      "partial sync optimization",
+      "mobile draft autosave introduction"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "mobile/sync/merge_engine.ts",
+      "backend/sync/conflict_resolver.ts",
+      "shared/protocol/sync.ts"
+    ],
+    "may_change_files": [
+      "tests/sync/conflict_resolution.test.ts",
+      "docs/offline-sync.md",
+      "docs/mobile-data-flow.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "pick a blanket last-write-wins rule without documenting tradeoff",
+      "fork client and server conflict logic permanently",
+      "ignore tombstone or delete semantics"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "protocol_compatibility_check",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "same record edited on two devices converges deterministically",
+      "delete versus edit conflict follows documented rule"
+    ]
+  },
+  "review_focus": [
+    "shared protocol contract",
+    "deterministic merge semantics",
+    "backward compatibility for older clients"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "protocol_consistency_kept",
+    "review_high_findings_zero",
+    "docs_updated"
+  ]
+}

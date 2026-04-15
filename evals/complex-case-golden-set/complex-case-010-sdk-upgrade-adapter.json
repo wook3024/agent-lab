@@ -1,0 +1,71 @@
+{
+  "id": "complex-case-010-sdk-upgrade-adapter",
+  "task_type": "research-implementation",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "external-sdk",
+    "adapter-boundary",
+    "cross-file-change",
+    "docs-sync",
+    "test-required"
+  ],
+  "prompt": "외부 billing SDK의 주요 버전을 업그레이드해야 한다. 기존 클라이언트 계약을 유지하면서 adapter 계층으로 breaking change를 흡수하고, 테스트와 업그레이드 ADR을 함께 추가하라. 공식 문서를 1차 출처로 사용해야 한다.",
+  "context": {
+    "files": [
+      "integrations/billing/client.ts",
+      "integrations/billing/adapter.ts",
+      "tests/integrations/billing_adapter.test.ts"
+    ],
+    "docs": [
+      "docs/vendor/billing-sdk-upgrade.md",
+      "docs/adr/adr-billing-sdk-upgrade.md"
+    ],
+    "recent_changes": [
+      "billing retry middleware added",
+      "customer portal endpoints normalized"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "integrations/billing/client.ts",
+      "integrations/billing/adapter.ts"
+    ],
+    "may_change_files": [
+      "tests/integrations/billing_adapter.test.ts",
+      "docs/vendor/billing-sdk-upgrade.md",
+      "docs/adr/adr-billing-sdk-upgrade.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "leak vendor vNext types outside adapter boundary",
+      "upgrade dependency without documenting migration impact",
+      "remove retry or error mapping behavior silently"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "docs_sync_check",
+      "external_contract_check"
+    ],
+    "manual_checks": [
+      "public billing service contract remains stable",
+      "ADR explains tradeoffs and rollback path"
+    ]
+  },
+  "review_focus": [
+    "adapter boundary discipline",
+    "official docs grounding",
+    "error and retry behavior parity"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "docs_updated",
+    "review_high_findings_zero",
+    "research_grounded"
+  ]
+}

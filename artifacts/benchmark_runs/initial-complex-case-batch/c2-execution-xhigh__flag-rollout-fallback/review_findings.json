@@ -1,0 +1,1 @@
+{"high":[],"medium":[],"low":[],"residual_risks":["`record_exposure(..., dedupe_cache=...)`의 scoped dedupe는 단위 테스트로만 검증됐고, 실제 외부 telemetry sink와 연결된 통합 경로에서는 아직 재검증되지 않았습니다.","`remote_values`에 flag가 아예 없을 때의 기존 의미 보존은 이번 회귀 테스트 범위에 포함되지 않아, 누락 키 처리 semantics는 추가 확인 여지가 있습니다."]}

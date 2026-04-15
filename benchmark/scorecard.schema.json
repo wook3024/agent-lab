@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "quality_champion": {
+      "type": ["string", "null"]
+    },
+    "minimum_sufficient_config": {
+      "type": ["string", "null"]
+    },
+    "runs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "candidate_id": { "type": "string" },
+          "model_mapping": { "type": "object" },
+          "total_tasks": { "type": "integer" },
+          "passed_tasks": { "type": "integer" },
+          "high_findings": { "type": "integer" },
+          "failure_taxonomy": { "type": "object" }
+        },
+        "required": [
+          "candidate_id",
+          "model_mapping",
+          "total_tasks",
+          "passed_tasks",
+          "high_findings",
+          "failure_taxonomy"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["quality_champion", "minimum_sufficient_config", "runs"],
+  "additionalProperties": false
+}

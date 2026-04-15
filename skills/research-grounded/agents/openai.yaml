@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Grounded"
+  short_description: "Use primary sources to de-risk complex implementation choices"
+  default_prompt: "Use $research-grounded to research this implementation question using primary sources."

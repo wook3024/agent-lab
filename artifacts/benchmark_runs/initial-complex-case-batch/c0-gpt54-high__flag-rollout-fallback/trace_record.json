@@ -1,0 +1,60 @@
+{
+  "run_id": "c0-gpt54-high__flag-rollout-fallback",
+  "candidate_id": "c0",
+  "task_id": "flag-rollout-fallback",
+  "model_mapping": {
+    "solo": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    }
+  },
+  "review_model": {
+    "model": "gpt-5.4",
+    "effort": "high"
+  },
+  "changed_files": [
+    "app/flags.py",
+    "app/telemetry.py",
+    "docs/feature_flags.md",
+    "ops/feature_rollout.md",
+    "tests/test_flag_rollout_fallback.py"
+  ],
+  "gate_results": {
+    "tests_pass": true,
+    "compile_pass": true,
+    "docs_sync_check": true
+  },
+  "review_results": {
+    "high": 0,
+    "medium": 1,
+    "low": 1
+  },
+  "failure_taxonomy": [],
+  "usage": {
+    "candidate": {
+      "solo_usage": {
+        "input_tokens": 1365327,
+        "cached_input_tokens": 1291136,
+        "output_tokens": 10656
+      }
+    },
+    "review": {
+      "input_tokens": 494417,
+      "cached_input_tokens": 425344,
+      "output_tokens": 6297
+    }
+  },
+  "timing": {
+    "candidate": {
+      "solo_seconds": 163.828
+    },
+    "review_seconds": 102.898,
+    "gate_seconds": {
+      "tests_pass": 0.045,
+      "compile_pass": 0.04,
+      "docs_sync_check": 0.032
+    },
+    "total_seconds": 266.859
+  },
+  "result": "pass"
+}

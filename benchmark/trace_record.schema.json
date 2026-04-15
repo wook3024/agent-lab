@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "run_id": { "type": "string" },
+    "candidate_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "model_mapping": { "type": "object" },
+    "review_model": { "type": "object" },
+    "changed_files": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "gate_results": { "type": "object" },
+    "review_results": {
+      "type": "object",
+      "properties": {
+        "high": { "type": "integer" },
+        "medium": { "type": "integer" },
+        "low": { "type": "integer" }
+      },
+      "required": ["high", "medium", "low"],
+      "additionalProperties": false
+    },
+    "failure_taxonomy": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "usage": { "type": "object" },
+    "result": {
+      "type": "string",
+      "enum": ["pass", "fail"]
+    }
+  },
+  "required": [
+    "run_id",
+    "candidate_id",
+    "task_id",
+    "model_mapping",
+    "review_model",
+    "changed_files",
+    "gate_results",
+    "review_results",
+    "failure_taxonomy",
+    "usage",
+    "result"
+  ],
+  "additionalProperties": false
+}

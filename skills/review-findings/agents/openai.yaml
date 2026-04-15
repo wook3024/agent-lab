@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Findings"
+  short_description: "Find regressions and missing coverage in complex changes"
+  default_prompt: "Use $review-findings to review this complex change and report only concrete findings."

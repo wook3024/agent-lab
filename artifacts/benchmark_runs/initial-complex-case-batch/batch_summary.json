@@ -1,0 +1,808 @@
+[
+  {
+    "run_id": "c0-gpt54-high__flag-rollout-fallback",
+    "candidate_id": "c0",
+    "task_id": "flag-rollout-fallback",
+    "model_mapping": {
+      "solo": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/flags.py",
+      "app/telemetry.py",
+      "docs/feature_flags.md",
+      "ops/feature_rollout.md",
+      "tests/test_flag_rollout_fallback.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 1,
+      "low": 1
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "solo_usage": {
+          "input_tokens": 1365327,
+          "cached_input_tokens": 1291136,
+          "output_tokens": 10656
+        }
+      },
+      "review": {
+        "input_tokens": 494417,
+        "cached_input_tokens": 425344,
+        "output_tokens": 6297
+      }
+    },
+    "timing": {
+      "candidate": {
+        "solo_seconds": 163.828
+      },
+      "review_seconds": 102.898,
+      "gate_seconds": {
+        "tests_pass": 0.045,
+        "compile_pass": 0.04,
+        "docs_sync_check": 0.032
+      },
+      "total_seconds": 266.859
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c0-gpt54-high__tenant-cache-scope",
+    "candidate_id": "c0",
+    "task_id": "tenant-cache-scope",
+    "model_mapping": {
+      "solo": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/cache_keys.py",
+      "app/project_summary_service.py",
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md",
+      "tests/test_tenant_cache_scope.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 1,
+      "low": 1
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "solo_usage": {
+          "input_tokens": 940001,
+          "cached_input_tokens": 870016,
+          "output_tokens": 8476
+        }
+      },
+      "review": {
+        "input_tokens": 556633,
+        "cached_input_tokens": 488448,
+        "output_tokens": 5104
+      }
+    },
+    "timing": {
+      "candidate": {
+        "solo_seconds": 132.305
+      },
+      "review_seconds": 94.222,
+      "gate_seconds": {
+        "tests_pass": 0.045,
+        "compile_pass": 0.041,
+        "docs_sync_check": 0.029
+      },
+      "total_seconds": 226.655
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c0-gpt54-medium__tenant-cache-scope",
+    "candidate_id": "c0",
+    "task_id": "tenant-cache-scope",
+    "model_mapping": {
+      "solo": {
+        "model": "gpt-5.4",
+        "effort": "medium"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/cache_keys.py",
+      "app/project_summary_service.py",
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 1,
+      "low": 1
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "solo_usage": {
+          "input_tokens": 639930,
+          "cached_input_tokens": 571136,
+          "output_tokens": 6355
+        }
+      },
+      "review": {
+        "input_tokens": 702003,
+        "cached_input_tokens": 632832,
+        "output_tokens": 6076
+      }
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c0-gpt54mini-high__tenant-cache-scope",
+    "candidate_id": "c0",
+    "task_id": "tenant-cache-scope",
+    "model_mapping": {
+      "solo": {
+        "model": "gpt-5.4-mini",
+        "effort": "high"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/cache_keys.py",
+      "app/project_summary_service.py",
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md",
+      "tests/test_tenant_cache_scope.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "solo_usage": {
+          "input_tokens": 1372249,
+          "cached_input_tokens": 1215744,
+          "output_tokens": 14404
+        }
+      },
+      "review": {
+        "input_tokens": 772428,
+        "cached_input_tokens": 703104,
+        "output_tokens": 4661
+      }
+    },
+    "result": "fail"
+  },
+  {
+    "run_id": "c2-all-gpt54-high__flag-rollout-fallback",
+    "candidate_id": "c2",
+    "task_id": "flag-rollout-fallback",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/flags.py",
+      "app/telemetry.py",
+      "docs/feature_flags.md",
+      "ops/feature_rollout.md",
+      "tests/test_flag_rollout_fallback.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 1,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 842591,
+          "cached_input_tokens": 776576,
+          "output_tokens": 7859
+        },
+        "execution_usage": {
+          "input_tokens": 1130869,
+          "cached_input_tokens": 1057920,
+          "output_tokens": 9411
+        }
+      },
+      "review": {
+        "input_tokens": 498070,
+        "cached_input_tokens": 427520,
+        "output_tokens": 4247
+      }
+    },
+    "timing": {
+      "candidate": {
+        "triage_seconds": 122.234,
+        "execution_seconds": 164.9
+      },
+      "review_seconds": 80.263,
+      "gate_seconds": {
+        "tests_pass": 0.045,
+        "compile_pass": 0.039,
+        "docs_sync_check": 0.028
+      },
+      "total_seconds": 367.524
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-all-gpt54-high__presence-race",
+    "candidate_id": "c2",
+    "task_id": "presence-race",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/client_presence.py",
+      "app/presence_hub.py",
+      "app/session_store.py",
+      "docs/realtime_presence.md",
+      "tests/test_presence_race.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 707166,
+          "cached_input_tokens": 638336,
+          "output_tokens": 8723
+        },
+        "execution_usage": {
+          "input_tokens": 1025852,
+          "cached_input_tokens": 956032,
+          "output_tokens": 7656
+        }
+      },
+      "review": {
+        "input_tokens": 420821,
+        "cached_input_tokens": 351872,
+        "output_tokens": 3938
+      }
+    },
+    "timing": {
+      "candidate": {
+        "triage_seconds": 134.36,
+        "execution_seconds": 138.031
+      },
+      "review_seconds": 68.353,
+      "gate_seconds": {
+        "tests_pass": 0.045,
+        "compile_pass": 0.04,
+        "docs_sync_check": 0.028
+      },
+      "total_seconds": 340.872
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-all-gpt54-high__tenant-cache-scope",
+    "candidate_id": "c2",
+    "task_id": "tenant-cache-scope",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/cache_keys.py",
+      "app/project_summary_service.py",
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md",
+      "tests/test_tenant_cache_scope.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 858927,
+          "cached_input_tokens": 789632,
+          "output_tokens": 8765
+        },
+        "execution_usage": {
+          "input_tokens": 879258,
+          "cached_input_tokens": 808704,
+          "output_tokens": 6722
+        }
+      },
+      "review": {
+        "input_tokens": 642731,
+        "cached_input_tokens": 572928,
+        "output_tokens": 3423
+      }
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-execution-xhigh__flag-rollout-fallback",
+    "candidate_id": "c2",
+    "task_id": "flag-rollout-fallback",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "xhigh"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/flags.py",
+      "app/telemetry.py",
+      "docs/feature_flags.md",
+      "ops/feature_rollout.md",
+      "tests/test_flag_rollout_fallback.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 700273,
+          "cached_input_tokens": 686080,
+          "output_tokens": 7030
+        },
+        "execution_usage": {
+          "input_tokens": 1499811,
+          "cached_input_tokens": 1424512,
+          "output_tokens": 12773
+        }
+      },
+      "review": {
+        "input_tokens": 418743,
+        "cached_input_tokens": 349952,
+        "output_tokens": 3360
+      }
+    },
+    "timing": {
+      "candidate": {
+        "triage_seconds": 114.117,
+        "execution_seconds": 202.179
+      },
+      "review_seconds": 73.144,
+      "gate_seconds": {
+        "tests_pass": 0.044,
+        "compile_pass": 0.04,
+        "docs_sync_check": 0.029
+      },
+      "total_seconds": 389.567
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-execution-xhigh__presence-race",
+    "candidate_id": "c2",
+    "task_id": "presence-race",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "xhigh"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/client_presence.py",
+      "app/presence_hub.py",
+      "app/session_store.py",
+      "docs/realtime_presence.md",
+      "tests/test_presence_race.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 1,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 630141,
+          "cached_input_tokens": 561920,
+          "output_tokens": 7356
+        },
+        "execution_usage": {
+          "input_tokens": 1165469,
+          "cached_input_tokens": 1092864,
+          "output_tokens": 13972
+        }
+      },
+      "review": {
+        "input_tokens": 493203,
+        "cached_input_tokens": 422912,
+        "output_tokens": 4746
+      }
+    },
+    "timing": {
+      "candidate": {
+        "triage_seconds": 121.946,
+        "execution_seconds": 219.528
+      },
+      "review_seconds": 82.172,
+      "gate_seconds": {
+        "tests_pass": 0.045,
+        "compile_pass": 0.039,
+        "docs_sync_check": 0.028
+      },
+      "total_seconds": 423.773
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-execution-xhigh__tenant-cache-scope",
+    "candidate_id": "c2",
+    "task_id": "tenant-cache-scope",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "xhigh"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/cache_keys.py",
+      "app/project_summary_service.py",
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md",
+      "tests/test_tenant_cache_scope.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 631228,
+          "cached_input_tokens": 562176,
+          "output_tokens": 7596
+        },
+        "execution_usage": {
+          "input_tokens": 952910,
+          "cached_input_tokens": 882432,
+          "output_tokens": 6723
+        }
+      },
+      "review": {
+        "input_tokens": 271857,
+        "cached_input_tokens": 204672,
+        "output_tokens": 2433
+      }
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-mini-triage-context__flag-rollout-fallback",
+    "candidate_id": "c2",
+    "task_id": "flag-rollout-fallback",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4-mini",
+        "effort": "medium"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "xhigh"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/flags.py",
+      "app/telemetry.py",
+      "docs/feature_flags.md",
+      "ops/feature_rollout.md",
+      "tests/test_flag_rollout_fallback.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 626464,
+          "cached_input_tokens": 556928,
+          "output_tokens": 8366
+        },
+        "execution_usage": {
+          "input_tokens": 738558,
+          "cached_input_tokens": 670336,
+          "output_tokens": 10690
+        }
+      },
+      "review": {
+        "input_tokens": 492394,
+        "cached_input_tokens": 422656,
+        "output_tokens": 5062
+      }
+    },
+    "timing": {
+      "candidate": {
+        "triage_seconds": 80.696,
+        "execution_seconds": 166.923
+      },
+      "review_seconds": 95.849,
+      "gate_seconds": {
+        "tests_pass": 0.044,
+        "compile_pass": 0.04,
+        "docs_sync_check": 0.029
+      },
+      "total_seconds": 343.594
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-mini-triage-context__presence-race",
+    "candidate_id": "c2",
+    "task_id": "presence-race",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4-mini",
+        "effort": "medium"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "xhigh"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/client_presence.py",
+      "app/presence_hub.py",
+      "app/session_store.py",
+      "docs/realtime_presence.md",
+      "tests/test_presence_race.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 545880,
+          "cached_input_tokens": 478208,
+          "output_tokens": 5824
+        },
+        "execution_usage": {
+          "input_tokens": 1155340,
+          "cached_input_tokens": 1082368,
+          "output_tokens": 12567
+        }
+      },
+      "review": {
+        "input_tokens": 415612,
+        "cached_input_tokens": 347264,
+        "output_tokens": 4777
+      }
+    },
+    "timing": {
+      "candidate": {
+        "triage_seconds": 62.265,
+        "execution_seconds": 204.083
+      },
+      "review_seconds": 81.822,
+      "gate_seconds": {
+        "tests_pass": 0.045,
+        "compile_pass": 0.039,
+        "docs_sync_check": 0.028
+      },
+      "total_seconds": 348.295
+    },
+    "result": "pass"
+  },
+  {
+    "run_id": "c2-mini-triage-context__tenant-cache-scope",
+    "candidate_id": "c2",
+    "task_id": "tenant-cache-scope",
+    "model_mapping": {
+      "triage": {
+        "model": "gpt-5.4-mini",
+        "effort": "medium"
+      },
+      "execution": {
+        "model": "gpt-5.4",
+        "effort": "xhigh"
+      }
+    },
+    "review_model": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "changed_files": [
+      "app/cache_keys.py",
+      "app/project_summary_service.py",
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md",
+      "tests/test_tenant_cache_scope.py"
+    ],
+    "gate_results": {
+      "tests_pass": true,
+      "compile_pass": true,
+      "docs_sync_check": true
+    },
+    "review_results": {
+      "high": 0,
+      "medium": 0,
+      "low": 1
+    },
+    "failure_taxonomy": [],
+    "usage": {
+      "candidate": {
+        "triage_usage": {
+          "input_tokens": 622152,
+          "cached_input_tokens": 554880,
+          "output_tokens": 7862
+        },
+        "execution_usage": {
+          "input_tokens": 1032509,
+          "cached_input_tokens": 960384,
+          "output_tokens": 9184
+        }
+      },
+      "review": {
+        "input_tokens": 415621,
+        "cached_input_tokens": 347904,
+        "output_tokens": 3948
+      }
+    },
+    "result": "pass"
+  }
+]

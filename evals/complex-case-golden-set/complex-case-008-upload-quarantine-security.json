@@ -1,0 +1,73 @@
+{
+  "id": "complex-case-008-upload-quarantine-security",
+  "task_type": "implementation",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "security",
+    "queue-processing",
+    "docs-sync",
+    "test-required"
+  ],
+  "prompt": "파일 업로드 파이프라인에서 스캔이 끝나기 전에 객체가 public read로 노출될 수 있다. upload API, scan worker, storage ACL, quarantine 테스트, 보안 문서와 incident runbook을 함께 수정하라.",
+  "context": {
+    "files": [
+      "backend/uploads/create_upload.ts",
+      "workers/uploads/scan_worker.ts",
+      "backend/storage/object_acl.ts",
+      "tests/uploads/quarantine_flow.test.ts"
+    ],
+    "docs": [
+      "docs/file-upload-security.md",
+      "ops/incident-response-upload.md"
+    ],
+    "recent_changes": [
+      "multipart upload support added",
+      "object store ACL abstraction introduced"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "backend/uploads/create_upload.ts",
+      "workers/uploads/scan_worker.ts",
+      "backend/storage/object_acl.ts"
+    ],
+    "may_change_files": [
+      "tests/uploads/quarantine_flow.test.ts",
+      "docs/file-upload-security.md",
+      "ops/incident-response-upload.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "trust client-supplied content-type",
+      "mark uploads public before scan completion",
+      "disable malware scan to reduce latency"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "security_scan_pass",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "quarantined object is inaccessible before approval",
+      "clean object becomes accessible only after scan completion"
+    ]
+  },
+  "review_focus": [
+    "quarantine lifecycle",
+    "ACL state transitions",
+    "worker retry behavior and duplicate events"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "security_expectations_met",
+    "review_high_findings_zero",
+    "docs_updated"
+  ]
+}

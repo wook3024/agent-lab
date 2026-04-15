@@ -1,0 +1,70 @@
+{
+  "id": "complex-case-009-async-job-flaky-hardening",
+  "task_type": "test-hardening",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "test-required",
+    "async-behavior",
+    "eventual-consistency",
+    "cross-file-change"
+  ],
+  "prompt": "리포트 export 통합 테스트가 비동기 job와 이벤트 전달 타이밍 때문에 간헐적으로 실패한다. 테스트를 안정화하되 실제 동작 의미를 숨기지 말고, queue/event 계층의 작은 수정이 필요하면 함께 반영하라. 테스트 문서도 업데이트하라.",
+  "context": {
+    "files": [
+      "tests/integration/report_export.test.ts",
+      "backend/jobs/report_queue.ts",
+      "backend/events/report_events.ts"
+    ],
+    "docs": [
+      "docs/testing-async-jobs.md",
+      "docs/report-export.md"
+    ],
+    "recent_changes": [
+      "queue backend abstraction introduced",
+      "report export progress events added"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "tests/integration/report_export.test.ts"
+    ],
+    "may_change_files": [
+      "backend/jobs/report_queue.ts",
+      "backend/events/report_events.ts",
+      "docs/testing-async-jobs.md",
+      "docs/report-export.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "convert integration test into shallow unit test only",
+      "add arbitrary sleep-based stabilization without rationale",
+      "skip export completion verification"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "flaky_test_repeat_check",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "test remains meaningful for queue completion semantics",
+      "repeat runs do not show intermittent timeout"
+    ]
+  },
+  "review_focus": [
+    "fake time versus real async semantics",
+    "event waiting contract",
+    "test realism after stabilization"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "flakiness_reduced_without_semantic_loss",
+    "review_high_findings_zero",
+    "docs_updated"
+  ]
+}

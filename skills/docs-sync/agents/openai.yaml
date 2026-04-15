@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs Sync"
+  short_description: "Keep design and runbook docs aligned with code changes"
+  default_prompt: "Use $docs-sync to determine which docs must change alongside this code change."

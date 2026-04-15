@@ -1,0 +1,65 @@
+{
+  "id": "complex-case-001",
+  "task_type": "implementation",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "test-required",
+    "docs-sync",
+    "regression-risk"
+  ],
+  "prompt": "복잡한 제품 개발 작업 요청 원문",
+  "context": {
+    "files": [
+      "src/module_a.ts",
+      "src/module_b.ts",
+      "tests/module_b.test.ts"
+    ],
+    "docs": [
+      "docs/feature-spec.md"
+    ],
+    "recent_changes": [
+      "최근 PR 또는 커밋 요약"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "src/module_b.ts"
+    ],
+    "may_change_files": [
+      "tests/module_b.test.ts",
+      "docs/feature-spec.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "change unrelated modules",
+      "skip regression coverage",
+      "introduce public API breakage"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "repro path fixed",
+      "no unrelated diff"
+    ]
+  },
+  "review_focus": [
+    "state transition safety",
+    "cross-module regression",
+    "documentation consistency"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "no_unrelated_changes",
+    "review_high_findings_zero",
+    "no_policy_violation"
+  ]
+}

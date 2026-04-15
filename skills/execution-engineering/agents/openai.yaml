@@ -1,0 +1,4 @@
+interface:
+  display_name: "Execution Engineering"
+  short_description: "Implement complex changes with tests, docs, and scope control"
+  default_prompt: "Use $execution-engineering to implement this complex task with tests and docs updates."

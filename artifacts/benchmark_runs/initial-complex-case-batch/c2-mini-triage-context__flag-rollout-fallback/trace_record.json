@@ -1,0 +1,70 @@
+{
+  "run_id": "c2-mini-triage-context__flag-rollout-fallback",
+  "candidate_id": "c2",
+  "task_id": "flag-rollout-fallback",
+  "model_mapping": {
+    "triage": {
+      "model": "gpt-5.4-mini",
+      "effort": "medium"
+    },
+    "execution": {
+      "model": "gpt-5.4",
+      "effort": "xhigh"
+    }
+  },
+  "review_model": {
+    "model": "gpt-5.4",
+    "effort": "high"
+  },
+  "changed_files": [
+    "app/flags.py",
+    "app/telemetry.py",
+    "docs/feature_flags.md",
+    "ops/feature_rollout.md",
+    "tests/test_flag_rollout_fallback.py"
+  ],
+  "gate_results": {
+    "tests_pass": true,
+    "compile_pass": true,
+    "docs_sync_check": true
+  },
+  "review_results": {
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "failure_taxonomy": [],
+  "usage": {
+    "candidate": {
+      "triage_usage": {
+        "input_tokens": 626464,
+        "cached_input_tokens": 556928,
+        "output_tokens": 8366
+      },
+      "execution_usage": {
+        "input_tokens": 738558,
+        "cached_input_tokens": 670336,
+        "output_tokens": 10690
+      }
+    },
+    "review": {
+      "input_tokens": 492394,
+      "cached_input_tokens": 422656,
+      "output_tokens": 5062
+    }
+  },
+  "timing": {
+    "candidate": {
+      "triage_seconds": 80.696,
+      "execution_seconds": 166.923
+    },
+    "review_seconds": 95.849,
+    "gate_seconds": {
+      "tests_pass": 0.044,
+      "compile_pass": 0.04,
+      "docs_sync_check": 0.029
+    },
+    "total_seconds": 343.594
+  },
+  "result": "pass"
+}

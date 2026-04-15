@@ -1,0 +1,70 @@
+{
+  "run_id": "c2-mini-triage-context__presence-race",
+  "candidate_id": "c2",
+  "task_id": "presence-race",
+  "model_mapping": {
+    "triage": {
+      "model": "gpt-5.4-mini",
+      "effort": "medium"
+    },
+    "execution": {
+      "model": "gpt-5.4",
+      "effort": "xhigh"
+    }
+  },
+  "review_model": {
+    "model": "gpt-5.4",
+    "effort": "high"
+  },
+  "changed_files": [
+    "app/client_presence.py",
+    "app/presence_hub.py",
+    "app/session_store.py",
+    "docs/realtime_presence.md",
+    "tests/test_presence_race.py"
+  ],
+  "gate_results": {
+    "tests_pass": true,
+    "compile_pass": true,
+    "docs_sync_check": true
+  },
+  "review_results": {
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "failure_taxonomy": [],
+  "usage": {
+    "candidate": {
+      "triage_usage": {
+        "input_tokens": 545880,
+        "cached_input_tokens": 478208,
+        "output_tokens": 5824
+      },
+      "execution_usage": {
+        "input_tokens": 1155340,
+        "cached_input_tokens": 1082368,
+        "output_tokens": 12567
+      }
+    },
+    "review": {
+      "input_tokens": 415612,
+      "cached_input_tokens": 347264,
+      "output_tokens": 4777
+    }
+  },
+  "timing": {
+    "candidate": {
+      "triage_seconds": 62.265,
+      "execution_seconds": 204.083
+    },
+    "review_seconds": 81.822,
+    "gate_seconds": {
+      "tests_pass": 0.045,
+      "compile_pass": 0.039,
+      "docs_sync_check": 0.028
+    },
+    "total_seconds": 348.295
+  },
+  "result": "pass"
+}

@@ -1,0 +1,73 @@
+{
+  "id": "complex-case-006-feature-flag-rollout-fallback",
+  "task_type": "implementation",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "operational-safety",
+    "telemetry",
+    "test-required",
+    "docs-sync"
+  ],
+  "prompt": "새 기능을 단계적으로 rollout하는 feature flag 경로에서 remote config 응답 실패 시 잘못된 기본값이 적용된다. evaluator, frontend consumer, exposure telemetry, rollout 테스트, 운영 runbook을 함께 수정하라.",
+  "context": {
+    "files": [
+      "backend/flags/evaluator.ts",
+      "frontend/lib/feature_flags.ts",
+      "backend/telemetry/flag_exposure.ts",
+      "tests/flags/rollout_fallback.test.ts"
+    ],
+    "docs": [
+      "docs/feature-flags.md",
+      "ops/runbooks/feature-rollout.md"
+    ],
+    "recent_changes": [
+      "flag bucketing algorithm update",
+      "frontend bootstrap hydration optimization"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "backend/flags/evaluator.ts",
+      "frontend/lib/feature_flags.ts"
+    ],
+    "may_change_files": [
+      "backend/telemetry/flag_exposure.ts",
+      "tests/flags/rollout_fallback.test.ts",
+      "docs/feature-flags.md",
+      "ops/runbooks/feature-rollout.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "hardcode production flag values",
+      "disable exposure telemetry",
+      "treat network failure as enabled by default without policy"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "operational_fallback_check",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "remote config failure follows documented safe default",
+      "exposure events remain deduplicated"
+    ]
+  },
+  "review_focus": [
+    "safe fallback policy",
+    "telemetry integrity",
+    "frontend and backend flag semantics consistency"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "operational_safety_kept",
+    "review_high_findings_zero",
+    "docs_updated"
+  ]
+}

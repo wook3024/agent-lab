@@ -1,0 +1,73 @@
+{
+  "id": "complex-case-003-realtime-presence-race",
+  "task_type": "bugfix",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "concurrency",
+    "realtime-state",
+    "test-required",
+    "docs-sync"
+  ],
+  "prompt": "실시간 협업 편집기에서 reconnect 직후 이전 세션의 stale presence 이벤트가 나중에 도착해 잘못된 온라인 사용자 목록을 만든다. presence hub, session store, 프론트엔드, race 테스트, 설계 문서를 함께 수정하라.",
+  "context": {
+    "files": [
+      "backend/realtime/presence_hub.ts",
+      "backend/collab/session_store.ts",
+      "frontend/editor/presence_store.ts",
+      "tests/collab/presence_race.test.ts"
+    ],
+    "docs": [
+      "docs/realtime-presence.md",
+      "docs/editor-architecture.md"
+    ],
+    "recent_changes": [
+      "websocket reconnect jitter 도입",
+      "presence batching 최적화"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "backend/realtime/presence_hub.ts",
+      "backend/collab/session_store.ts"
+    ],
+    "may_change_files": [
+      "frontend/editor/presence_store.ts",
+      "tests/collab/presence_race.test.ts",
+      "docs/realtime-presence.md",
+      "docs/editor-architecture.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "solve by disabling reconnect",
+      "drop all late events without sequence rule",
+      "move source of truth fully to frontend"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "concurrency_behavior_check",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "reconnect does not resurrect stale participant",
+      "active participants remain visible after reconnect burst"
+    ]
+  },
+  "review_focus": [
+    "event ordering contract",
+    "session versioning or epoch handling",
+    "frontend cache invalidation on reconnect"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "race_condition_addressed",
+    "review_high_findings_zero",
+    "no_unrelated_changes"
+  ]
+}

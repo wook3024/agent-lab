@@ -1,0 +1,60 @@
+{
+  "run_id": "c0-gpt54-high__tenant-cache-scope",
+  "candidate_id": "c0",
+  "task_id": "tenant-cache-scope",
+  "model_mapping": {
+    "solo": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    }
+  },
+  "review_model": {
+    "model": "gpt-5.4",
+    "effort": "high"
+  },
+  "changed_files": [
+    "app/cache_keys.py",
+    "app/project_summary_service.py",
+    "docs/caching.md",
+    "docs/multi-tenant-architecture.md",
+    "tests/test_tenant_cache_scope.py"
+  ],
+  "gate_results": {
+    "tests_pass": true,
+    "compile_pass": true,
+    "docs_sync_check": true
+  },
+  "review_results": {
+    "high": 1,
+    "medium": 1,
+    "low": 0
+  },
+  "failure_taxonomy": [],
+  "usage": {
+    "candidate": {
+      "solo_usage": {
+        "input_tokens": 2014936,
+        "cached_input_tokens": 1847552,
+        "output_tokens": 14897
+      }
+    },
+    "review": {
+      "input_tokens": 560401,
+      "cached_input_tokens": 492160,
+      "output_tokens": 4620
+    }
+  },
+  "timing": {
+    "candidate": {
+      "solo_seconds": 246.391
+    },
+    "review_seconds": 89.224,
+    "gate_seconds": {
+      "tests_pass": 0.047,
+      "compile_pass": 0.08,
+      "docs_sync_check": 0.029
+    },
+    "total_seconds": 335.788
+  },
+  "result": "fail"
+}

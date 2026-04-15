@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trace Eval Recorder"
+  short_description: "Record traces and evaluate complex-case agent runs"
+  default_prompt: "Use $trace-eval-recorder to capture trace fields and evaluation data for this run."

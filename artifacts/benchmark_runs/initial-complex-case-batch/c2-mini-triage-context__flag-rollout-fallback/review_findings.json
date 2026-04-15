@@ -1,0 +1,1 @@
+{"high":[],"medium":[],"low":[],"residual_risks":["`app/telemetry.py:16-20`의 dedupe는 호출자들이 동일한 `seen_exposures` scope를 공유할 때만 적용된다. 현재 diff 범위에서는 문제를 재현하지 못했지만, 추후 evaluator 바깥에 추가 노출 지점이 생기면 같은 scope 전달이 빠질 때 중복 전송이 다시 발생할 수 있다.","`tests/test_flag_rollout_fallback.py:21-23,37-39`는 `variant`만 고정하므로, 태스크가 요구한 exposure payload 호환성(`flag_name`, `user_id` 유지)에 대한 회귀 방지는 상대적으로 약하다."]}

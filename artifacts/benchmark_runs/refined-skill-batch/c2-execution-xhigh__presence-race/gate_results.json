@@ -1,0 +1,23 @@
+{
+  "tests_pass": {
+    "passed": true,
+    "stdout": "",
+    "stderr": "test_duplicate_connected_event_is_idempotent (test_presence_race.PresenceRaceTest) ... ok\ntest_same_epoch_different_session_id_is_ignored (test_presence_race.PresenceRaceTest) ... ok\ntest_stale_disconnect_does_not_clear_newer_session (test_presence_race.PresenceRaceTest) ... ok\ntest_stale_event_does_not_replace_newer_session (test_presence_race.PresenceRaceTest) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+    "returncode": 0,
+    "elapsed_seconds": 0.044
+  },
+  "compile_pass": {
+    "passed": true,
+    "stdout": "Listing 'app'...\nListing 'tests'...\n",
+    "stderr": "",
+    "returncode": 0,
+    "elapsed_seconds": 0.04
+  },
+  "docs_sync_check": {
+    "passed": true,
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0,
+    "elapsed_seconds": 0.029
+  }
+}

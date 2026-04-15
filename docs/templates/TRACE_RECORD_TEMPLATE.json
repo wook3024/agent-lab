@@ -1,0 +1,52 @@
+{
+  "run_id": "run-2026-04-16-001",
+  "candidate_id": "C2",
+  "task_id": "complex-case-001",
+  "task_type": "implementation",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "test-required",
+    "docs-sync"
+  ],
+  "input_summary": "요청 요약",
+  "referenced_files": [
+    "src/module_a.ts",
+    "src/module_b.ts",
+    "tests/module_b.test.ts",
+    "docs/feature-spec.md"
+  ],
+  "tool_calls": [
+    {
+      "tool": "rg",
+      "purpose": "관련 파일 탐색"
+    },
+    {
+      "tool": "test runner",
+      "purpose": "회귀 검증"
+    }
+  ],
+  "changed_files": [
+    "src/module_b.ts",
+    "tests/module_b.test.ts",
+    "docs/feature-spec.md"
+  ],
+  "gate_results": {
+    "tests_pass": true,
+    "lint_pass": true,
+    "typecheck_pass": true,
+    "security_scan_pass": true,
+    "docs_sync_check": true
+  },
+  "review_results": {
+    "high": 0,
+    "medium": 1,
+    "low": 2
+  },
+  "failure_taxonomy": [],
+  "human_intervention_required": false,
+  "elapsed_seconds": 0,
+  "estimated_cost_usd": 0,
+  "result": "pass",
+  "notes": "복잡한 케이스 특이사항"
+}

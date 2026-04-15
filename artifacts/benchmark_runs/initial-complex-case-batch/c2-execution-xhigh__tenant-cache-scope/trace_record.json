@@ -1,0 +1,57 @@
+{
+  "run_id": "c2-execution-xhigh__tenant-cache-scope",
+  "candidate_id": "c2",
+  "task_id": "tenant-cache-scope",
+  "model_mapping": {
+    "triage": {
+      "model": "gpt-5.4",
+      "effort": "high"
+    },
+    "execution": {
+      "model": "gpt-5.4",
+      "effort": "xhigh"
+    }
+  },
+  "review_model": {
+    "model": "gpt-5.4",
+    "effort": "high"
+  },
+  "changed_files": [
+    "app/cache_keys.py",
+    "app/project_summary_service.py",
+    "docs/caching.md",
+    "docs/multi-tenant-architecture.md",
+    "tests/test_tenant_cache_scope.py"
+  ],
+  "gate_results": {
+    "tests_pass": true,
+    "compile_pass": true,
+    "docs_sync_check": true
+  },
+  "review_results": {
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "failure_taxonomy": [],
+  "usage": {
+    "candidate": {
+      "triage_usage": {
+        "input_tokens": 631228,
+        "cached_input_tokens": 562176,
+        "output_tokens": 7596
+      },
+      "execution_usage": {
+        "input_tokens": 952910,
+        "cached_input_tokens": 882432,
+        "output_tokens": 6723
+      }
+    },
+    "review": {
+      "input_tokens": 271857,
+      "cached_input_tokens": 204672,
+      "output_tokens": 2433
+    }
+  },
+  "result": "pass"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "presence-race",
+  "title": "Ignore stale presence events after reconnect",
+  "task_type": "bugfix",
+  "complexity_axes": [
+    "cross-file-change",
+    "concurrency",
+    "realtime-state",
+    "docs-sync",
+    "test-required"
+  ],
+  "prompt": "Reconnects can produce stale presence events that arrive after a newer session is active. Fix the session tracking, presence hub, and client-side merge behavior so stale events do not reintroduce the wrong session. Update the docs with the ordering rule.",
+  "must_change_files": [
+    "app/session_store.py",
+    "app/presence_hub.py",
+    "app/client_presence.py",
+    "docs/realtime_presence.md"
+  ],
+  "may_change_files": [
+    "tests/test_presence_race.py"
+  ],
+  "must_not": [
+    "disable reconnect handling",
+    "drop all late events without an ordering rule",
+    "rewrite the system around a different transport"
+  ],
+  "gate_commands": [
+    {
+      "name": "tests_pass",
+      "cmd": "python3 -m unittest discover -s tests -v"
+    },
+    {
+      "name": "compile_pass",
+      "cmd": "python3 -m compileall app tests"
+    },
+    {
+      "name": "docs_sync_check",
+      "cmd": "python3 scripts/docs_check.py"
+    }
+  ]
+}

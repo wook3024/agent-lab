@@ -1,0 +1,47 @@
+{
+  "run_id": "c0-gpt54-medium__tenant-cache-scope",
+  "candidate_id": "c0",
+  "task_id": "tenant-cache-scope",
+  "model_mapping": {
+    "solo": {
+      "model": "gpt-5.4",
+      "effort": "medium"
+    }
+  },
+  "review_model": {
+    "model": "gpt-5.4",
+    "effort": "high"
+  },
+  "changed_files": [
+    "app/cache_keys.py",
+    "app/project_summary_service.py",
+    "docs/caching.md",
+    "docs/multi-tenant-architecture.md"
+  ],
+  "gate_results": {
+    "tests_pass": true,
+    "compile_pass": true,
+    "docs_sync_check": true
+  },
+  "review_results": {
+    "high": 0,
+    "medium": 1,
+    "low": 1
+  },
+  "failure_taxonomy": [],
+  "usage": {
+    "candidate": {
+      "solo_usage": {
+        "input_tokens": 639930,
+        "cached_input_tokens": 571136,
+        "output_tokens": 6355
+      }
+    },
+    "review": {
+      "input_tokens": 702003,
+      "cached_input_tokens": 632832,
+      "output_tokens": 6076
+    }
+  },
+  "result": "pass"
+}

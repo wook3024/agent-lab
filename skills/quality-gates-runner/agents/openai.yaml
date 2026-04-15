@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quality Gates Runner"
+  short_description: "Run deterministic gates for complex engineering tasks"
+  default_prompt: "Use $quality-gates-runner to define and run the deterministic gates for this task."

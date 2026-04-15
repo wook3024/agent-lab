@@ -1,0 +1,1 @@
+{"high":[],"medium":[],"low":[],"residual_risks":["현재 sandbox 기준으로는 구체적인 결함을 찾지 못했다. 다만 이 수정은 `epoch`가 사용자별로 단조 증가한다는 전제에 기대므로, producer가 서로 다른 session에 같은 `epoch`를 재사용하는 경우의 동작은 별도 검증이 필요하다.","검증은 `python3 -m unittest discover -s tests -v`, `python3 -m compileall app tests`, `python3 scripts/docs_check.py`까지 확인했다. 실제 비동기 전달 환경에서의 반복 reconnect/지연 전달 조합은 추가 통합 검증이 남아 있다."]}

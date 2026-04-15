@@ -1,0 +1,54 @@
+batch_id: "initial-complex-case-batch"
+tasks:
+  - "tenant-cache-scope"
+  - "flag-rollout-fallback"
+  - "presence-race"
+review_evaluator:
+  model: "gpt-5.4"
+  effort: "high"
+runs:
+  - id: "c0-gpt54-medium"
+    candidate: "c0"
+    roles:
+      solo:
+        model: "gpt-5.4"
+        effort: "medium"
+  - id: "c0-gpt54-high"
+    candidate: "c0"
+    roles:
+      solo:
+        model: "gpt-5.4"
+        effort: "high"
+  - id: "c0-gpt54mini-high"
+    candidate: "c0"
+    roles:
+      solo:
+        model: "gpt-5.4-mini"
+        effort: "high"
+  - id: "c2-all-gpt54-high"
+    candidate: "c2"
+    roles:
+      triage:
+        model: "gpt-5.4"
+        effort: "high"
+      execution:
+        model: "gpt-5.4"
+        effort: "high"
+  - id: "c2-execution-xhigh"
+    candidate: "c2"
+    roles:
+      triage:
+        model: "gpt-5.4"
+        effort: "high"
+      execution:
+        model: "gpt-5.4"
+        effort: "xhigh"
+  - id: "c2-mini-triage-context"
+    candidate: "c2"
+    roles:
+      triage:
+        model: "gpt-5.4-mini"
+        effort: "medium"
+      execution:
+        model: "gpt-5.4"
+        effort: "xhigh"

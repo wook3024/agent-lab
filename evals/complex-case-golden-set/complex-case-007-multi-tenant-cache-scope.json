@@ -1,0 +1,70 @@
+{
+  "id": "complex-case-007-multi-tenant-cache-scope",
+  "task_type": "bugfix",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "multi-tenant-isolation",
+    "performance-risk",
+    "test-required"
+  ],
+  "prompt": "프로젝트 요약 API 캐시 키에 tenant 식별자가 빠져 있어 다른 tenant의 요약 데이터가 섞인다. cache key builder, service 계층, API 테스트, 캐싱 문서를 함께 수정하라. 성능 회귀 없이 격리를 복원해야 한다.",
+  "context": {
+    "files": [
+      "backend/cache/key_builder.ts",
+      "backend/projects/project_summary_service.ts",
+      "tests/cache/tenant_scope.test.ts"
+    ],
+    "docs": [
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md"
+    ],
+    "recent_changes": [
+      "summary API memoization 추가",
+      "tenant header normalization 변경"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "backend/cache/key_builder.ts",
+      "backend/projects/project_summary_service.ts"
+    ],
+    "may_change_files": [
+      "tests/cache/tenant_scope.test.ts",
+      "docs/caching.md",
+      "docs/multi-tenant-architecture.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "disable cache entirely",
+      "store tenant in process-global mutable state",
+      "change cache TTLs without justification"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "performance_smoke_check",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "same project slug in different tenants never shares cached payload",
+      "latency does not regress beyond agreed smoke threshold"
+    ]
+  },
+  "review_focus": [
+    "tenant isolation in key construction",
+    "cache invalidation semantics",
+    "performance versus correctness tradeoff"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "tenant_isolation_preserved",
+    "review_high_findings_zero",
+    "no_unrelated_changes"
+  ]
+}

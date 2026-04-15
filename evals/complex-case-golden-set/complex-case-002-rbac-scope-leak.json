@@ -1,0 +1,72 @@
+{
+  "id": "complex-case-002-rbac-scope-leak",
+  "task_type": "bugfix",
+  "complexity_level": "high",
+  "complexity_axes": [
+    "cross-file-change",
+    "authorization",
+    "test-required",
+    "docs-sync"
+  ],
+  "prompt": "프로젝트 관리자 화면에서 tenant 범위를 잘못 계산해 다른 tenant의 멤버 목록이 노출된다. 정책 계층, 조회 쿼리, 관리자 UI, 테스트, 접근 제어 문서를 함께 수정하라.",
+  "context": {
+    "files": [
+      "backend/auth/policy.ts",
+      "backend/projects/member_query.ts",
+      "frontend/admin/users/page.tsx",
+      "tests/auth/rbac_project_scope.test.ts"
+    ],
+    "docs": [
+      "docs/access-control.md",
+      "docs/admin-console.md"
+    ],
+    "recent_changes": [
+      "organization role 통합 리팩터링",
+      "admin search pagination 개선"
+    ]
+  },
+  "expected": {
+    "must_change_files": [
+      "backend/auth/policy.ts",
+      "backend/projects/member_query.ts"
+    ],
+    "may_change_files": [
+      "frontend/admin/users/page.tsx",
+      "tests/auth/rbac_project_scope.test.ts",
+      "docs/access-control.md",
+      "docs/admin-console.md"
+    ],
+    "must_add_or_update_tests": true,
+    "must_update_docs": true,
+    "must_not": [
+      "broaden admin access to mask the bug",
+      "remove tenant filter for performance",
+      "change role names across the app"
+    ]
+  },
+  "verification": {
+    "required_gates": [
+      "tests_pass",
+      "lint_pass",
+      "typecheck_pass",
+      "security_scan_pass",
+      "docs_sync_check"
+    ],
+    "manual_checks": [
+      "non-admin cannot access off-tenant members",
+      "tenant admin can still access in-scope members"
+    ]
+  },
+  "review_focus": [
+    "authorization boundary",
+    "query-level scope enforcement",
+    "UI filtering versus backend enforcement confusion"
+  ],
+  "graders": [
+    "requirements_met",
+    "tests_present",
+    "security_expectations_met",
+    "review_high_findings_zero",
+    "no_policy_violation"
+  ]
+}

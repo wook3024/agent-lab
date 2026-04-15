@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Pack Builder"
+  short_description: "Build narrow context packs for complex engineering work"
+  default_prompt: "Use $context-pack-builder to assemble a narrow context pack for this complex task."
