@@ -37,6 +37,12 @@
 
 현재 체계는 구현 품질에는 강하지만, “이 변경을 배포해도 되는가”를 판정하는 표준 에이전트가 없다.
 
+#### Current Status
+
+- role card 작성 완료
+- skill scaffold 작성 완료
+- output template 작성 완료
+
 #### Scope
 
 - release blocker 판정
@@ -70,6 +76,12 @@
 
 현재 approval 개념은 문서상 존재하지만, benchmark 시스템 안에서 강제되는 skill로는 아직 없다.
 
+#### Current Status
+
+- skill scaffold 작성 완료
+- approval decision template 작성 완료
+- policy matrix 세부 규칙은 후속 정교화 필요
+
 #### Scope
 
 - read-only / safe write / moderate / risky / irreversible 분류
@@ -100,6 +112,11 @@
 
 현재 Review Agent는 일반 defect finding에는 강하지만,
 보안과 정책을 별도 축으로 강하게 보지 않는다.
+
+#### Current Status
+
+- 아직 미구현
+- trigger 조건과 severity rubric 정의가 다음 우선순위
 
 #### Scope
 

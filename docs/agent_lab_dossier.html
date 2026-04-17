@@ -896,7 +896,7 @@
           <span>Benchmarked candidates</span>
         </article>
         <article class="metric-card">
-          <strong>8</strong>
+          <strong>10</strong>
           <span>Skills in system</span>
         </article>
         <article class="metric-card">
@@ -1194,6 +1194,32 @@
               <li>facts / inference / unresolved uncertainty 분리</li>
               <li>speculative conclusion 금지</li>
               <li>줄이는 실패: hallucinated policy interpretation, version miss</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge red">P0 control-plane</span>
+              <span class="badge gold">release</span>
+            </div>
+            <h4><code>release-gate</code></h4>
+            <p>gate 통과와 실제 release-ready를 구분해, blocker, missing approval, rollback readiness를 근거와 함께 판정합니다.</p>
+            <ul class="compact-list">
+              <li><code>release-ready / hold / escalate</code> 중 하나로 결정</li>
+              <li>unresolved High, skipped gate, missing rollback을 blocker로 취급</li>
+              <li>줄이는 실패: false release-ready, operator handoff ambiguity</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge red">P0 control-plane</span>
+              <span class="badge gold">approval</span>
+            </div>
+            <h4><code>approval-policy</code></h4>
+            <p>변경을 approval tier로 분류하고, 지금 허용 가능한 작업과 사람 승인 전 멈춰야 할 작업을 명확히 분리합니다.</p>
+            <ul class="compact-list">
+              <li><code>read-only / safe / moderate / risky / irreversible</code> 분류</li>
+              <li>small diff라도 privileged, destructive, production-affecting change를 보수적으로 분류</li>
+              <li>줄이는 실패: silent risky allow, irreversible underclassification</li>
             </ul>
           </article>
         </div>
@@ -1571,6 +1597,8 @@
               <li><a href="../skills/trace-eval-recorder/SKILL.md">trace-eval-recorder</a></li>
               <li><a href="../skills/docs-sync/SKILL.md">docs-sync</a></li>
               <li><a href="../skills/research-grounded/SKILL.md">research-grounded</a></li>
+              <li><a href="../skills/release-gate/SKILL.md">release-gate</a></li>
+              <li><a href="../skills/approval-policy/SKILL.md">approval-policy</a></li>
             </ul>
           </article>
           <article class="asset-card">
