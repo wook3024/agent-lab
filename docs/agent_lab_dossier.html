@@ -896,7 +896,7 @@
           <span>Benchmarked candidates</span>
         </article>
         <article class="metric-card">
-          <strong>10</strong>
+          <strong>12</strong>
           <span>Skills in system</span>
         </article>
         <article class="metric-card">
@@ -1220,6 +1220,32 @@
               <li><code>read-only / safe / moderate / risky / irreversible</code> 분류</li>
               <li>small diff라도 privileged, destructive, production-affecting change를 보수적으로 분류</li>
               <li>줄이는 실패: silent risky allow, irreversible underclassification</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge red">P0 control-plane</span>
+              <span class="badge gold">security</span>
+            </div>
+            <h4><code>security-review</code></h4>
+            <p>일반 코드 리뷰와 분리된 보안 lane에서 auth, tenant isolation, data exposure, secret handling, auditability를 검토합니다.</p>
+            <ul class="compact-list">
+              <li><code>Critical / High / Medium / Low / Residual Security Risks</code> 형식 유지</li>
+              <li>exploit path 또는 misuse path 중심으로 severity를 판단</li>
+              <li>줄이는 실패: auth bypass miss, secret flow omission, audit gap underclassification</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge orange">P1 routing</span>
+              <span class="badge gold">ownership</span>
+            </div>
+            <h4><code>ownership-routing</code></h4>
+            <p>변경 파일과 서비스 criticality를 기반으로 owner team, required reviewers, release approvers, stricter gate lane을 계산합니다.</p>
+            <ul class="compact-list">
+              <li>path-based deterministic routing 우선</li>
+              <li>unmapped critical path를 조용히 넘기지 않고 routing gap으로 남김</li>
+              <li>줄이는 실패: unowned change silence, critical service under-routing</li>
             </ul>
           </article>
         </div>
@@ -1599,6 +1625,8 @@
               <li><a href="../skills/research-grounded/SKILL.md">research-grounded</a></li>
               <li><a href="../skills/release-gate/SKILL.md">release-gate</a></li>
               <li><a href="../skills/approval-policy/SKILL.md">approval-policy</a></li>
+              <li><a href="../skills/security-review/SKILL.md">security-review</a></li>
+              <li><a href="../skills/ownership-routing/SKILL.md">ownership-routing</a></li>
             </ul>
           </article>
           <article class="asset-card">

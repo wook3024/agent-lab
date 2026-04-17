@@ -1,0 +1,30 @@
+owners:
+  - path_prefix: "services/auth/"
+    owner_team: "identity-platform"
+    secondary_team: "security-engineering"
+    service_name: "auth-service"
+    criticality: "critical"
+    required_reviewers:
+      - "identity-platform"
+      - "security-engineering"
+    release_approvers:
+      - "identity-platform-oncall"
+  - path_prefix: "services/payments/"
+    owner_team: "payments-core"
+    secondary_team: "finance-platform"
+    service_name: "payments"
+    criticality: "critical"
+    required_reviewers:
+      - "payments-core"
+      - "finance-platform"
+    release_approvers:
+      - "payments-release-manager"
+  - path_prefix: "platform/cache/"
+    owner_team: "platform-runtime"
+    secondary_team: "tenant-safety"
+    service_name: "shared-cache"
+    criticality: "high"
+    required_reviewers:
+      - "platform-runtime"
+    release_approvers:
+      - "platform-runtime-oncall"

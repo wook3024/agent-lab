@@ -115,8 +115,9 @@
 
 #### Current Status
 
-- 아직 미구현
-- trigger 조건과 severity rubric 정의가 다음 우선순위
+- role card 작성 완료
+- skill scaffold 작성 완료
+- security review output template 작성 완료
 
 #### Scope
 
@@ -156,6 +157,12 @@
 - service criticality mapping
 - reviewer route selection
 - approval owner mapping
+
+#### Current Status
+
+- skill scaffold 작성 완료
+- owner routing decision template 작성 완료
+- owner map template 작성 완료
 
 #### Deliverables
 
