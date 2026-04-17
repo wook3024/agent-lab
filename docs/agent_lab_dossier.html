@@ -896,7 +896,7 @@
           <span>Benchmarked candidates</span>
         </article>
         <article class="metric-card">
-          <strong>14</strong>
+          <strong>16</strong>
           <span>Skills in system</span>
         </article>
         <article class="metric-card">
@@ -1272,6 +1272,32 @@
               <li>freeze override, required communications, rollback obligations 명시</li>
               <li>incident mode에서도 auth/data/irreversible change는 named approver 필요</li>
               <li>줄이는 실패: incident shortcut overreach, freeze bypass without record</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge orange">P1 review</span>
+              <span class="badge gold">architecture</span>
+            </div>
+            <h4><code>architecture-review</code></h4>
+            <p>테스트가 통과해도 남을 수 있는 boundary erosion, coupling 증가, migration sequencing 오류, 과한 추상화를 검토합니다.</p>
+            <ul class="compact-list">
+              <li>change cost와 ownership clarity를 장기 관점에서 평가</li>
+              <li>task-scoped fix보다 불필요한 abstraction이 더 위험한지 판단</li>
+              <li>줄이는 실패: coupling growth blindness, abstraction overacceptance</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge orange">P1 release</span>
+              <span class="badge gold">handoff</span>
+            </div>
+            <h4><code>release-artifact-generator</code></h4>
+            <p>release note, operator checklist delta, rollback note를 표준 형식으로 생성해 operator와 approver handoff를 더 정확하게 만듭니다.</p>
+            <ul class="compact-list">
+              <li>user-visible impact와 operator-visible impact를 분리</li>
+              <li>release gate 상태와 rollback caveat를 handoff 패키지로 정리</li>
+              <li>줄이는 실패: operator handoff gaps, rollback note omission</li>
             </ul>
           </article>
         </div>
@@ -1655,6 +1681,8 @@
               <li><a href="../skills/ownership-routing/SKILL.md">ownership-routing</a></li>
               <li><a href="../skills/cost-governance-trace/SKILL.md">cost-governance-trace</a></li>
               <li><a href="../skills/incident-mode-policy/SKILL.md">incident-mode-policy</a></li>
+              <li><a href="../skills/architecture-review/SKILL.md">architecture-review</a></li>
+              <li><a href="../skills/release-artifact-generator/SKILL.md">release-artifact-generator</a></li>
             </ul>
           </article>
           <article class="asset-card">
