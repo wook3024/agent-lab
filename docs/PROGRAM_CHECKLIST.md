@@ -68,6 +68,32 @@
 - [x] role routing policy 도출
 - [x] remaining gaps / next batch 계획 반영
 
+### Phase 7. CTO Control Plane Assets
+
+- [x] CTO 관점 필수/선택 자산 재분류
+- [x] CTO-grade target architecture 문서화
+- [x] control-plane backlog 작성 및 우선순위화
+- [x] 90일 도입 로드맵 작성
+- [x] `release-gate` 자산 작성
+- [x] `approval-policy` 자산 작성
+- [x] `security-review` 자산 작성
+- [x] `ownership-routing` 자산 작성
+- [x] `cost-governance-trace` 자산 작성
+- [x] `incident-mode-policy` 자산 작성
+- [x] `architecture-review` 자산 작성
+- [x] `release-artifact-generator` 자산 작성
+- [x] `owner-aware-context-builder` 자산 작성
+
+### Phase 8. Pilot Operations Package
+
+- [x] pilot deployment playbook 작성
+- [x] pilot sample run package 작성
+- [x] pilot owner map sample 작성
+- [x] pilot scorecard template 작성
+- [x] pilot batch evaluation flow 작성
+- [x] dossier / backlog / roadmap에 pilot 자산 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -77,7 +103,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 6`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 8`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 
@@ -89,3 +115,4 @@
 - 후속 확장:
   - refined 기준으로 `mini triage/context` 재검증
   - task type 다양화
+  - pilot batch를 feature / migration / ops benchmark로 확장

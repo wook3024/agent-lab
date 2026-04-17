@@ -1,0 +1,84 @@
+owners:
+  - path_prefix: "services/auth/"
+    owner_team: "identity-platform"
+    secondary_team: "security-engineering"
+    service_name: "auth-service"
+    criticality: "critical"
+    owner_runbook: "runbooks/auth-service-rollout.md"
+    escalation_channel: "#identity-incidents"
+    required_reviewers:
+      - "identity-platform"
+      - "security-engineering"
+    release_approvers:
+      - "identity-platform-oncall"
+      - "security-duty-manager"
+    review_trigger_hints:
+      - "security-review"
+      - "release-gate"
+    approval_hint: "auth, RBAC, token validation, session scope touched changes require named approval"
+
+  - path_prefix: "services/payments/"
+    owner_team: "payments-core"
+    secondary_team: "finance-platform"
+    service_name: "payments"
+    criticality: "critical"
+    owner_runbook: "runbooks/payments-safe-rollout.md"
+    escalation_channel: "#payments-release"
+    required_reviewers:
+      - "payments-core"
+      - "finance-platform"
+    release_approvers:
+      - "payments-release-manager"
+      - "finance-platform-oncall"
+    review_trigger_hints:
+      - "release-gate"
+      - "architecture-review"
+    approval_hint: "migration, idempotency, retry semantics, ledger impact changes require release approval"
+
+  - path_prefix: "platform/cache/"
+    owner_team: "platform-runtime"
+    secondary_team: "tenant-safety"
+    service_name: "shared-cache"
+    criticality: "high"
+    owner_runbook: "runbooks/shared-cache-rollout.md"
+    escalation_channel: "#platform-runtime"
+    required_reviewers:
+      - "platform-runtime"
+      - "tenant-safety"
+    release_approvers:
+      - "platform-runtime-oncall"
+    review_trigger_hints:
+      - "security-review"
+      - "architecture-review"
+    approval_hint: "tenant keying, cache invalidation, multi-tenant isolation changes require explicit owner check"
+
+  - path_prefix: "frontend/flags/"
+    owner_team: "product-infra"
+    secondary_team: "web-platform"
+    service_name: "feature-flag-delivery"
+    criticality: "high"
+    owner_runbook: "runbooks/flag-rollout.md"
+    escalation_channel: "#flag-ops"
+    required_reviewers:
+      - "product-infra"
+    release_approvers:
+      - "product-infra-oncall"
+    review_trigger_hints:
+      - "release-gate"
+    approval_hint: "default fallback, rollout targeting, stale cache behavior changes require rollout note"
+
+  - path_prefix: "sdk/integrations/"
+    owner_team: "developer-platform"
+    secondary_team: "api-governance"
+    service_name: "external-sdk-integration"
+    criticality: "medium"
+    owner_runbook: "runbooks/sdk-upgrade-checklist.md"
+    escalation_channel: "#developer-platform"
+    required_reviewers:
+      - "developer-platform"
+      - "api-governance"
+    release_approvers:
+      - "developer-platform-maintainer"
+    review_trigger_hints:
+      - "architecture-review"
+    approval_hint: "breaking API surface, retry policy, versioned rollout changes require compatibility review"

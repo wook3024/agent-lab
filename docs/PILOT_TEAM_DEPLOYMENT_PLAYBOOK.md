@@ -102,6 +102,12 @@ pilot에 넣을 작업은 아래 조건 중 3개 이상을 만족해야 한다.
 - pilot scorecard entry
 - intervention count 기록
 
+## Companion Assets
+
+- `docs/PILOT_OWNER_MAP_SAMPLE.yaml`
+- `docs/templates/PILOT_SCORECARD_TEMPLATE.md`
+- `docs/PILOT_BATCH_EVALUATION_FLOW.md`
+
 ## Trigger Rules
 
 ### Security Review Trigger

@@ -223,6 +223,8 @@
 ### Week 10
 
 - 첫 pilot batch 수행
+- pilot batch evaluation flow 고정
+- pilot scorecard template 기준으로 기록
 - scorecard 수집
 - human intervention 로그 분석
 
