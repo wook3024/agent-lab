@@ -896,7 +896,7 @@
           <span>Benchmarked candidates</span>
         </article>
         <article class="metric-card">
-          <strong>12</strong>
+          <strong>14</strong>
           <span>Skills in system</span>
         </article>
         <article class="metric-card">
@@ -1246,6 +1246,32 @@
               <li>path-based deterministic routing 우선</li>
               <li>unmapped critical path를 조용히 넘기지 않고 routing gap으로 남김</li>
               <li>줄이는 실패: unowned change silence, critical service under-routing</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge red">P0 governance</span>
+              <span class="badge gold">cost</span>
+            </div>
+            <h4><code>cost-governance-trace</code></h4>
+            <p>role별 model, effort, token, latency, owner, approval, release state를 trace에 넣어 quality와 cost를 함께 비교할 수 있게 만듭니다.</p>
+            <ul class="compact-list">
+              <li>quality-first route와 cost-optimized route를 수치로 비교</li>
+              <li>human intervention과 governance overhead를 숨기지 않음</li>
+              <li>줄이는 실패: cost-only optimization, latency blind routing</li>
+            </ul>
+          </article>
+          <article class="skill-card">
+            <div class="skill-meta">
+              <span class="badge orange">P1 policy</span>
+              <span class="badge gold">incident</span>
+            </div>
+            <h4><code>incident-mode-policy</code></h4>
+            <p>incident와 hotfix 상황에서 어떤 shortcut이 허용되고 어떤 통제는 절대 유지해야 하는지 명시해, 빠르게 움직이면서도 감사 가능성을 유지합니다.</p>
+            <ul class="compact-list">
+              <li>freeze override, required communications, rollback obligations 명시</li>
+              <li>incident mode에서도 auth/data/irreversible change는 named approver 필요</li>
+              <li>줄이는 실패: incident shortcut overreach, freeze bypass without record</li>
             </ul>
           </article>
         </div>
@@ -1627,6 +1653,8 @@
               <li><a href="../skills/approval-policy/SKILL.md">approval-policy</a></li>
               <li><a href="../skills/security-review/SKILL.md">security-review</a></li>
               <li><a href="../skills/ownership-routing/SKILL.md">ownership-routing</a></li>
+              <li><a href="../skills/cost-governance-trace/SKILL.md">cost-governance-trace</a></li>
+              <li><a href="../skills/incident-mode-policy/SKILL.md">incident-mode-policy</a></li>
             </ul>
           </article>
           <article class="asset-card">

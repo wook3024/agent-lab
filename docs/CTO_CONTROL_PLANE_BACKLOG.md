@@ -187,6 +187,12 @@
 
 현재는 benchmark scorecard는 있지만 운영 재무 관점의 governance는 약하다.
 
+#### Current Status
+
+- skill scaffold 작성 완료
+- cost governance report template 작성 완료
+- trace schema 확장 초안 작성 완료
+
 #### Scope
 
 - role별 token/cost/latency 수집
@@ -218,6 +224,11 @@
 #### Why
 
 incident 상황에서는 normal implementation flow와 다른 통제가 필요하다.
+
+#### Current Status
+
+- skill scaffold 작성 완료
+- incident mode decision template 작성 완료
 
 #### Scope
 
