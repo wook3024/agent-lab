@@ -169,6 +169,7 @@
 - Day 31-60 성과 검토
 - pilot 후보 팀 선정
 - pilot 적용 절차 초안 작성
+- pilot playbook 초안 작성
 
 ## Exit Criteria
 
