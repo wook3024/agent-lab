@@ -1,0 +1,24 @@
+{
+  "context_pack": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/benchmark_outputs/context_pack.md",
+  "diff_command": [
+    "git",
+    "diff",
+    "HEAD"
+  ],
+  "execution_report": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/benchmark_outputs/execution_report.md",
+  "gate_results": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/gate_results.json",
+  "lane": "review",
+  "optional_artifacts": {
+    "approval_decision": null,
+    "architecture_review_findings": null,
+    "release_artifact_package": null,
+    "release_gate_decision": null,
+    "security_review_findings": null
+  },
+  "review_findings": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/review_findings.json",
+  "run_dir": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback",
+  "task_brief": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/benchmark_outputs/task_brief.md",
+  "task_manifest": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/benchmark_task.json",
+  "trace_record": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/trace_record.json",
+  "workspace": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace"
+}

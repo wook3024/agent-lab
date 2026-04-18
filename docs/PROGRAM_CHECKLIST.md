@@ -130,6 +130,17 @@
 - [x] dossier에 LLM validation 자산 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 13. Evaluator Runner Integration
+
+- [x] evaluator runner contract 문서화
+- [x] sample LLM evaluation summary 작성
+- [x] sample disagreement analysis 작성
+- [x] evaluator manifest builder 작성
+- [x] evaluator bundle validator 작성
+- [x] sample manifest 생성 및 validator 실행 기록
+- [x] dossier에 evaluator runner 자산 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -139,7 +150,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 12`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 13`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 
