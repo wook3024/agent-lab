@@ -151,6 +151,17 @@
 - [x] dossier에 lane planning 자산 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 15. Existing-Run Evaluator Backfill
+
+- [x] evaluator prompt의 artifact path를 contract 기준으로 정렬
+- [x] `run_codex_benchmark.py`에 `--existing-run-dir` 모드 추가
+- [x] existing run 기준 `review + additional lane` 재실행 지원
+- [x] `evaluators/index.json` 표준 index 생성
+- [x] sample run에 evaluator-only backfill 실제 실행
+- [x] updated trace / batch summary 반영 확인
+- [x] verification 문서에 actual backfill 결과 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -160,7 +171,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 14`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 15`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 

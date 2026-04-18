@@ -6,9 +6,11 @@ Read and follow this local skill before acting:
 Read these inputs:
 
 - `{task_manifest}`
-- `benchmark_outputs/task_brief.md` if present
-- `benchmark_outputs/context_pack.md` if present
-- `benchmark_outputs/execution_report.md` if present
+- `{workspace}/benchmark_outputs/task_brief.md` if present
+- `{workspace}/benchmark_outputs/context_pack.md` if present
+- `{workspace}/benchmark_outputs/execution_report.md` if present
+- `{run_dir}/gate_results.json` if present
+- `{run_dir}/trace_record.json` if present
 
 Inspect the current sandbox diff and verification outcomes.
 

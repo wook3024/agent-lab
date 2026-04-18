@@ -92,7 +92,11 @@
     "review_results": {
       "high": 0,
       "medium": 0,
-      "low": 0
+      "low": 0,
+      "residual_risks": [
+        "\uc800\uc7a5\ub41c `benchmark_outputs/execution_report.md`\uc5d0\ub294 `python3 -m compileall app tests`\uac00 Apple Python cache \uad8c\ud55c \ubb38\uc81c\ub85c \uc2e4\ud328\ud588\ub2e4\uace0 \uc801\ud600 \uc788\uc9c0\ub9cc, \ud604\uc7ac \uc0cc\ub4dc\ubc15\uc2a4\uc5d0\uc11c \ub3d9\uc77c \uba85\ub839\uc744 \uc7ac\uc2e4\ud589\ud55c \uacb0\uacfc\ub294 \ud1b5\uacfc\ud588\uc2b5\ub2c8\ub2e4. \uc0b0\ucd9c\ubb3c \uac04 \uac80\uc99d \uae30\ub85d \ubd88\uc77c\uce58\ub294 \ud6c4\uc18d \uc790\ub3d9 \ud310\uc815\uc5d0\uc11c \ud63c\uc120\uc744 \uc904 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
+        "\ub204\ub77d\ub41c flag \uac12\uc740 \ud604\uc7ac\ub3c4 `remote_values.get(...) -> None` \ub4a4 `bool(value)`\ub85c `False` \ucc98\ub9ac\ub429\ub2c8\ub2e4. \uc774\ub294 \uc774\ubc88 \uacfc\uc81c\uc758 \ube44\ubaa9\ud45c\uc640 \uc77c\uce58\ud558\uc9c0\ub9cc, \ud574\ub2f9 \uc758\ubbf8\uac00 \uc815\ucc45\uc801\uc73c\ub85c \uc758\ub3c4\ub41c \uac83\uc778\uc9c0 \ubb38\uc11c\ub098 \ud14c\uc2a4\ud2b8\ub85c \uba85\uc2dc\ub418\uc9c0\ub294 \uc54a\uc558\uc2b5\ub2c8\ub2e4."
+      ]
     },
     "failure_taxonomy": [],
     "usage": {
@@ -109,9 +113,16 @@
         }
       },
       "review": {
-        "input_tokens": 421656,
-        "cached_input_tokens": 352640,
-        "output_tokens": 3186
+        "input_tokens": 521729,
+        "cached_input_tokens": 446976,
+        "output_tokens": 3272
+      },
+      "evaluators": {
+        "release_gate": {
+          "input_tokens": 585618,
+          "cached_input_tokens": 510976,
+          "output_tokens": 6093
+        }
       }
     },
     "timing": {
@@ -119,15 +130,39 @@
         "triage_seconds": 97.537,
         "execution_seconds": 162.605
       },
-      "review_seconds": 60.747,
+      "review_seconds": 79.837,
       "gate_seconds": {
         "tests_pass": 0.049,
         "compile_pass": 0.04,
         "docs_sync_check": 0.028
       },
-      "total_seconds": 321.019
+      "total_seconds": 321.019,
+      "evaluator_seconds": {
+        "release_gate": 118.809
+      }
     },
-    "result": "pass"
+    "result": "fail",
+    "evaluator_lanes": {
+      "review": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      },
+      "release_gate": {
+        "model": "gpt-5.4",
+        "effort": "high"
+      }
+    },
+    "evaluator_results": {
+      "release_gate": {
+        "high": 2,
+        "medium": 2,
+        "low": 0,
+        "residual_risks": [
+          "[ops/feature_rollout.md](/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/ops/feature_rollout.md:1)\uc5d0 rollback \ubb38\uad6c\ub294 \uc788\uc5b4 `escalate`\uae4c\uc9c0 \uac08 \uc815\ub3c4\uc758 \ubb34\uac00\uc774\ub4dc \uc0c1\ud0dc\ub294 \uc544\ub2d9\ub2c8\ub2e4. \ub530\ub77c\uc11c \ud604\uc7ac \uc0c1\ud669\uc740 `escalate`\ubcf4\ub2e4\ub294 `hold`\uac00 \ub354 \uc815\ud655\ud569\ub2c8\ub2e4.",
+          "False-hold risk\ub294 \ubd84\uba85\ud569\ub2c8\ub2e4. [execution_report.md](/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/benchmark_outputs/execution_report.md:35)\uc758 stale compile \uc2e4\ud328 \uae30\ub85d\ub9cc \ubcf4\uba74 \ubd88\ud544\uc694\ud558\uac8c \ubcf4\uc218\uc801\uc73c\ub85c \ub9c9\uc744 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \ucf54\ub4dc\uc640 \uc2e4\uc81c gate \uc0c1\ud0dc\ub9cc \ubcf4\uba74 \uacfc\ub3c4\ud55c hold \uc0ac\uc720\ub294 \ud06c\uc9c0 \uc54a\uace0, \uc9c0\uae08\uc758 hold \uadfc\uac70\ub294 \uc8fc\ub85c \ub204\ub77d\ub41c \uc2b9\uc778/\ub9b4\ub9ac\uc2a4 \uc0b0\ucd9c\ubb3c\uc785\ub2c8\ub2e4."
+        ]
+      }
+    }
   },
   {
     "run_id": "c2-execution-xhigh__presence-race",

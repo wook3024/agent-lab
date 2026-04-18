@@ -247,6 +247,35 @@ python3 scripts/run_codex_benchmark.py \
 이 모드는 candidate execution이나 evaluator execution 없이
 선택된 lane 계획만 출력한다.
 
+## Existing-Run Backfill Mode
+
+이미 생성된 benchmark run 또는 pilot run에 evaluator lane를
+후처리로 붙이려면 아래 커맨드를 사용한다.
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --existing-run-dir artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback
+```
+
+이 모드는 다음을 수행한다.
+
+- 기존 `workspace/`와 root artifact를 그대로 사용
+- `review` lane와 selector에 맞는 additional lane를 재실행
+- `evaluators/` 아래 manifest, findings, codex event, index를 기록
+- `trace_record.json`과 `batch_summary.json`을 evaluator 결과 기준으로 갱신
+
+생성되는 표준 구조:
+
+```text
+artifacts/benchmark_runs/<batch_id>/<run_id>__<task_id>/evaluators/
+  index.json
+  review_manifest.json
+  <lane>_manifest.json
+  <lane>_findings.json
+  <lane>_codex_events.jsonl
+```
+
 ## Integration Guidance
 
 ### Near Term
@@ -257,7 +286,7 @@ python3 scripts/run_codex_benchmark.py \
 
 ### Medium Term
 
-- lane별 judge 결과를 trace에 연결
+- disagreement template 자동 scaffold 생성
 - disagreement analysis 자동 scaffold 생성
 
 ## Output Storage Recommendation

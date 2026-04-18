@@ -89,12 +89,39 @@ task별 lane selection이 의도대로 되는지도 확인했다.
 
 즉, `additional_evaluators` selector가 task complexity axis 기준으로 정상 동작함을 확인했다.
 
+## Existing-Run Backfill Verification
+
+후처리 evaluator-only 실행도 실제로 검증했다.
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --existing-run-dir artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback
+```
+
+생성된 artifact:
+
+- [evaluators/review_manifest.json](../artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/evaluators/review_manifest.json)
+- [evaluators/release_gate_manifest.json](../artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/evaluators/release_gate_manifest.json)
+- [evaluators/release_gate_findings.json](../artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/evaluators/release_gate_findings.json)
+- [evaluators/index.json](../artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/evaluators/index.json)
+
+관찰 결과:
+
+- `review` lane는 `high=0`, `medium=0`, `low=0`
+- `release_gate` lane는 `high=2`, `medium=2`, `low=0`
+- 기존 run의 `trace_record.json`은 evaluator 결과를 반영해 `result=fail`로 재계산됐다
+- `python3 scripts/validate_evaluator_bundle.py --manifest .../evaluators/release_gate_manifest.json`는 `evaluator-bundle-valid`를 반환했다
+
 ## Remaining Gap
 
-현재는 plan-only와 manifest/validator까지 자동화되어 있다.
+현재는 아래까지 자동화되어 있다.
 
-다음 단계는 아래다.
+- plan-only lane selection
+- manifest generation / validation
+- existing-run evaluator backfill
+- `evaluators/index.json` 생성
+- trace / batch summary 갱신
 
-1. 실제 batch에서 추가 evaluator lane를 켠 run 1회 수행
-2. evaluator result를 `artifacts/.../evaluators/` 아래 표준 저장 구조로 축적
-3. disagreement template 자동 scaffold 생성
+다음 단계는 disagreement template 자동 scaffold 생성과
+lane별 human calibration hook 연결이다.

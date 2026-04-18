@@ -7,11 +7,12 @@ Read and follow these local skills before acting:
 Read these inputs when present:
 
 - `{task_manifest}`
-- `benchmark_outputs/task_brief.md`
-- `benchmark_outputs/context_pack.md`
-- `benchmark_outputs/execution_report.md`
-- `benchmark_outputs/review_findings.json`
-- `benchmark_outputs/trace_record.json`
+- `{workspace}/benchmark_outputs/task_brief.md`
+- `{workspace}/benchmark_outputs/context_pack.md`
+- `{workspace}/benchmark_outputs/execution_report.md`
+- `{run_dir}/review_findings.json`
+- `{run_dir}/trace_record.json`
+- `{run_dir}/gate_results.json`
 
 Inspect the current sandbox diff and verification outcomes.
 
