@@ -280,13 +280,21 @@ artifacts/benchmark_runs/<batch_id>/<run_id>__<task_id>/evaluators/
 기존 trace의 `usage.review`, `timing.review_seconds`를 재사용하고
 additional lane만 새로 실행한다.
 
+`--resume`를 함께 주면 이미 존재하는 `<lane>_findings.json`과
+`evaluators/index.json`의 usage / elapsed metadata를 재사용해서
+완료된 lane를 건너뛴다.
+
+`--only-lane architecture`처럼 lane를 좁히면
+`review + 지정 lane`만 대상으로 backfill할 수 있다.
+
 예시:
 
 ```bash
 python3 scripts/run_codex_benchmark.py \
   --config benchmark/deep_validation_matrix.yaml \
   --existing-run-dir artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race \
-  --reuse-existing-review
+  --reuse-existing-review \
+  --only-lane architecture
 ```
 
 ## Existing-Batch Backfill Mode
@@ -305,6 +313,9 @@ python3 scripts/run_codex_benchmark.py \
 - ready run만 순서대로 처리
 - `gate_results.json`, `review_findings.json`, `trace_record.json`가 없는 run은 skip
 - 개별 run 실패가 나도 다음 run으로 진행
+- `--resume`를 주면 이미 끝난 lane는 재사용
+- `--only-lane`를 주면 특정 additional lane만 batch-wide로 재실행
+- `--codex-timeout-seconds` 또는 config의 `codex_timeout_seconds`로 hanging run을 제한
 
 plan-only 결과는 `planned`와 `skipped` 목록을 함께 출력한다.
 

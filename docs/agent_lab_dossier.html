@@ -839,7 +839,7 @@
       </ul>
       <div class="sidebar-foot">
         <strong>현재 상태</strong>
-        <span>Phase 1~6 완료, complex-case 추천 조합 도출 완료</span>
+        <span>Phase 1~13 완료, deep-validation runner와 pilot 운영 루프까지 연결 완료</span>
         <strong>최종 기본값</strong>
         <span><code>C2 + all gpt-5.4/high</code></span>
       </div>
@@ -861,8 +861,9 @@
           <div class="hero-quote">
             <strong>Current verdict</strong>
             broad sweep에서는 <code>c2-mini-triage-context</code>가 가장 효율적이었고,
-            refined confirmatory batch까지 포함한 현재의 보수적 기본값은
-            <code>C2 + all gpt-5.4/high</code>입니다.
+            refined confirmatory batch와 deep validation까지 포함한 현재의 보수적 기본값은
+            <code>C2 + all gpt-5.4/high</code>입니다. 다만 governance까지 포함한
+            fully promoted default는 아직 없습니다.
           </div>
         </div>
       </section>
@@ -874,9 +875,9 @@
           <p>품질 보장 최우선 기준의 기본 승격 조합. refined batch에서 0 finding을 기록했습니다.</p>
         </article>
         <article class="summary-card" data-tone="efficient">
-          <h3>Efficiency Candidate</h3>
+          <h3>Cost Hypothesis</h3>
           <strong><code>mini triage/context</code></strong>
-          <p><code>gpt-5.4-mini / medium</code>를 triage/context에 내리면서도 broad sweep에서 안정성을 유지했습니다.</p>
+          <p><code>gpt-5.4-mini / medium</code>는 broad sweep에서 유망했지만, refined rerun에서는 stale ordering 회귀가 드러나 아직 승격 불가입니다.</p>
         </article>
         <article class="summary-card" data-tone="warning">
           <h3>Do Not Promote</h3>
@@ -1419,7 +1420,7 @@
         <div class="badge-row">
           <span class="badge teal">Broad-sweep champion: <code>c2-mini-triage-context</code></span>
           <span class="badge gold">Refined champion: <code>c2-all-gpt54-high</code></span>
-          <span class="badge red">Rejected: <code>C0</code>, default <code>xhigh</code></span>
+          <span class="badge red">Rejected: <code>C0</code>, default <code>xhigh</code>, promoted <code>mini triage</code></span>
         </div>
 
         <table class="score-table">
@@ -1568,6 +1569,20 @@
               <td>514.858</td>
               <td>6,601,953</td>
               <td>ordering/state-retention 케이스에서 stale reconnect regression을 만들었습니다.</td>
+            </tr>
+            <tr class="warning">
+              <td class="mono">c2-mini-triage-context</td>
+              <td><code>C2 / triage mini / execution xhigh</code></td>
+              <td>
+                <div class="quality-stack">
+                  <span class="pill high">H1</span>
+                  <span class="pill low">L1</span>
+                  <span class="pill neutral">fail</span>
+                </div>
+              </td>
+              <td>123.224</td>
+              <td>11,724,619</td>
+              <td>refined rerun에서 stale reconnect ordering bug와 execution report fidelity mismatch가 함께 드러났고, timing은 recovery metadata로만 남았습니다.</td>
             </tr>
           </tbody>
         </table>

@@ -174,6 +174,17 @@
 - [x] 추천/최종 scorecard 문서에 deep-validation 해석 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 17. Refined Run Recovery And Resume Controls
+
+- [x] `run_codex_benchmark.py`에 `--resume` / `--only-lane` 옵션 추가
+- [x] Codex timeout 기반 retry 제어 추가
+- [x] `c2-mini-triage-context__presence-race` 미완료 run 복구
+- [x] recovered artifact 기준 provisional trace 작성
+- [x] recovered run에 architecture lane backfill 적용
+- [x] refined deep-validation scorecard와 추천 문서 재갱신
+- [x] verification 문서에 recovered run 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -183,7 +194,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 16`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 17`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 
@@ -192,7 +203,8 @@
 - 제외 대상:
   - `C0` family for complex-case work
   - `execution = xhigh` as default
+  - promoted `mini triage/context` default
 - 후속 확장:
-  - refined 기준으로 `mini triage/context` 재검증
+  - `mini triage/context`를 다시 검증하기 전에 `presence-race` 회귀와 report fidelity mismatch부터 수정
   - task type 다양화
   - pilot batch를 feature / migration / ops benchmark로 확장

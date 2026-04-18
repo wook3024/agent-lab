@@ -1,0 +1,45 @@
+{
+  "additional_lanes": {
+    "architecture": {
+      "disagreement_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-mini-triage-context__presence-race/evaluators/disagreement_architecture.md",
+      "elapsed_seconds": 123.093,
+      "findings_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-mini-triage-context__presence-race/evaluators/architecture_findings.json",
+      "manifest_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-mini-triage-context__presence-race/evaluators/architecture_manifest.json",
+      "model": {
+        "effort": "high",
+        "model": "gpt-5.4"
+      },
+      "summary": {
+        "high": 1,
+        "low": 0,
+        "medium": 0,
+        "residual_risks": [
+          "`tests/test_presence_race.py`\uc5d0\ub294 `newer disconnected`\uac00 \uba3c\uc800 \uad00\uce21\ub41c \ub4a4 `older connected`\uac00 \ub4a4\ub2a6\uac8c \uc624\ub294 \uc21c\uc11c\uac00 \uc5c6\uc5b4, authoritative ordering \uacbd\uacc4\uac00 \ub2e4\uc2dc \ud750\ub824\uc838\ub3c4 \ud68c\uadc0\uac00 \ubc14\ub85c \ub4dc\ub7ec\ub098\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.",
+          "`docs/realtime_presence.md:8-10`\uc740 hub\uac00 \ucd5c\uc2e0 authoritative session\uc744 \uc800\uc7a5\ud55c\ub2e4\uace0 \uacc4\uc57d\uc744 \uc120\uc5b8\ud558\uc9c0\ub9cc \uad6c\ud604\uc740 \ubaa8\ub4e0 \uc774\ubca4\ud2b8 \ud0c0\uc785\uc5d0 \ub300\ud574 \uadf8 \uacc4\uc57d\uc744 \uc9c0\ud0a4\uc9c0 \ubabb\ud569\ub2c8\ub2e4. \uc774 \ubd88\uc77c\uce58\ub294 \uc774\ud6c4 \ub2e4\ub978 producer\ub098 consumer\uac00 \ubb38\uc11c\ub97c \uae30\uc900\uc73c\ub85c sequencing\uc744 \ud574\uc11d\ud560 \ub54c \uc6b4\uc601 \uacbd\uacc4\ub97c \ud750\ub9b4 \uc218 \uc788\uc2b5\ub2c8\ub2e4."
+        ]
+      },
+      "usage": {
+        "cached_input_tokens": 667008,
+        "input_tokens": 742624,
+        "output_tokens": 4365
+      }
+    }
+  },
+  "review": {
+    "findings_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-mini-triage-context__presence-race/review_findings.json",
+    "manifest_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-mini-triage-context__presence-race/evaluators/review_manifest.json",
+    "model": {
+      "effort": "high",
+      "model": "gpt-5.4"
+    },
+    "summary": {
+      "high": 1,
+      "low": 1,
+      "medium": 0,
+      "residual_risks": [
+        "`tests/test_presence_race.py`\uc5d0\ub294 `newer disconnected`\uac00 `older connected`\ubcf4\ub2e4 \uba3c\uc800 \ub3c4\ucc29\ud558\ub294 \uc21c\uc11c\uac00 \uc544\uc9c1 \uc790\ub3d9\ud654\ub418\uc5b4 \uc788\uc9c0 \uc54a\uc544, \uc704 stale reintroduction \ud68c\uadc0\uac00 \uacc4\uc18d \uc228\uc5b4 \uc788\uc744 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
+        "\ud604\uc7ac \uac8c\uc774\ud2b8 \uba85\ub839 \uc7ac\uc2e4\ud589 \uacb0\uacfc\ub294 \ubaa8\ub450 \ud1b5\uacfc\ud588\uc9c0\ub9cc, \uc2e4\ud589 \ub9ac\ud3ec\ud2b8\uc640 \uac8c\uc774\ud2b8 \uacb0\uacfc \ud30c\uc77c\uc758 \ubd88\uc77c\uce58\ub294 \ub9b4\ub9ac\uc2a4/\ub9ac\ubdf0 \uc790\ub3d9\ud654\uac00 \uc5b4\ub5a4 \uc18c\uc2a4\ub97c \uc9c4\uc2e4\ub85c \uc0bc\ub294\uc9c0 \ucd94\uac00 \ud655\uc778\uc774 \ud544\uc694\ud569\ub2c8\ub2e4."
+      ]
+    }
+  }
+}

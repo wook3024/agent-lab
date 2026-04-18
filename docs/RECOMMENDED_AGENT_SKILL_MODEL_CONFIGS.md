@@ -33,6 +33,10 @@ deep validation까지 포함하면 해석은 두 층으로 나뉜다.
 - `c2-execution-xhigh`
   - 상대 비교상 deep-validation 집계에서는 점수가 덜 나빠 보일 수 있다
   - 그러나 review와 architecture 모두 `high=1`이라 승격 근거로 쓰면 안 된다
+- `c2-mini-triage-context`
+  - broad sweep에서는 가장 효율적인 조합이었지만
+  - refined `presence-race` rerun에서 review `high=1`, architecture `high=1`이 동시에 남았다
+  - 게다가 executor가 정상 종료하지 않아 candidate timing은 recover-only metadata로만 남았으므로, 현재는 표준 승격 후보로 볼 수 없다
 - `c0-gpt54-high`
   - review와 security 둘 다 승격 불가였다
 
@@ -54,7 +58,7 @@ deep validation까지 포함하면 해석은 두 층으로 나뉜다.
 
 이 조합은 refined batch에서 이전 약점 케이스(`flag-rollout-fallback`)를 `0 finding`으로 통과했다. 현재 기준으로는 “최고 품질을 가장 보수적으로 보장하는” 설정이다.
 
-## Best Efficiency Candidate
+## Most Promising Cost Hypothesis
 
 - `Triage/Context = gpt-5.4-mini / medium`
 - `Execution = gpt-5.4 / xhigh`
@@ -70,7 +74,13 @@ deep validation까지 포함하면 해석은 두 층으로 나뉜다.
 
 을 보였다.
 
-다만 refined skill/prompt를 적용한 confirmatory rerun은 완료하지 않았으므로, production default로 승격하기 전에는 같은 refined 기준으로 1개 batch를 더 확인하는 것이 좋다.
+하지만 refined confirmatory rerun 결과는 부정적이었다.
+
+- `presence-race`에서 stale reconnect ordering bug를 남겨 review `high=1`
+- architecture lane에서도 authoritative ordering boundary가 hub/client/store에 분산된 구조적 결함으로 `high=1`
+- executor가 정상 종료하지 않아 timing metadata를 recover-only로 남겨야 했다
+
+따라서 이 조합은 현재 시점에서는 “다음에 구제 여부를 다시 검증할 비용 절감 가설”이지, promoted default나 pilot standard는 아니다.
 
 ## Role Routing Policy
 
@@ -115,7 +125,8 @@ deep validation까지 포함하면 해석은 두 층으로 나뉜다.
 
 ## Next Batch
 
-- refined 기준으로 `c2-mini-triage-context`를 2~3개 complex-case에 재검증
+- `c2-mini-triage-context`를 그대로 더 넓히기 전에, `presence-race`에서 드러난 stale ordering bug와 report fidelity mismatch를 먼저 수정
+- 수정 후에만 mini downshift 조합을 2~3개 complex-case로 재검증
 - `Execution = gpt-5.4 / high` + `Triage/Context = gpt-5.4-mini / medium` 조합을 직접 측정
 - task type을 bugfix 밖으로 넓혀:
   - test-hardening
@@ -126,5 +137,5 @@ deep validation까지 포함하면 해석은 두 층으로 나뉜다.
 현재 시점의 결론은 단순하다.
 
 - 최고 품질 보장 default: `C2 + all gpt-5.4/high`
-- 비용 효율 최우선 승격 후보: `C2 + mini triage/context + gpt-5.4 execution/review`
+- 비용 효율 최우선 탐색 가설: `C2 + mini triage/context + gpt-5.4 execution/review`
 - 단, deep validation까지 통과한 fully promoted default는 아직 없다

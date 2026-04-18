@@ -149,6 +149,25 @@ python3 scripts/run_codex_benchmark.py \
 - `architecture_findings.json`: `high=1`, `medium=0`, `low=0`
 - review와 architecture가 같은 severity signature를 보여 disagreement scaffold는 생성되지 않았다
 
+### `c2-mini-triage-context__presence-race`
+
+이 run은 최초 refined batch 실행에서 executor가 정상 종료하지 않아
+`gate_results.json`, `review_findings.json`, `trace_record.json`이 비어 있었다.
+복구 과정은 다음 순서로 진행했다.
+
+1. 기존 `workspace`와 `c2_*_codex_events.jsonl`에서 execution 산출물과 usage를 회수
+2. gate를 재실행해 `gate_results.json` 생성
+3. review lane를 다시 실행해 `review_findings.json` 확보
+4. provisional `trace_record.json`을 만든 뒤 `architecture` lane를 backfill
+
+결과:
+
+- `review_findings.json`: `high=1`, `medium=0`, `low=1`
+- `architecture_findings.json`: `high=1`, `medium=0`, `low=0`
+- disagreement scaffold 생성:
+  - [disagreement_architecture.md](../artifacts/benchmark_runs/refined-skill-batch/c2-mini-triage-context__presence-race/evaluators/disagreement_architecture.md)
+- candidate usage는 기존 jsonl에서 복구했지만, candidate wall-clock timing은 recover-only metadata로만 남겼다
+
 ## Existing-Batch Planning Verification
 
 ```bash
@@ -164,12 +183,8 @@ python3 scripts/run_codex_benchmark.py \
   - `c0-gpt54-high__tenant-cache-scope`
   - `c2-all-gpt54-high__flag-rollout-fallback`
   - `c2-execution-xhigh__presence-race`
-- skipped run:
   - `c2-mini-triage-context__presence-race`
-  - missing artifacts:
-    - `gate_results.json`
-    - `review_findings.json`
-    - `trace_record.json`
+- skipped run: 없음
 
 ## Remaining Gap
 

@@ -14,8 +14,9 @@ Implement only what the task brief authorizes, then prove it.
 3. Make the smallest coherent change that satisfies the behavior change.
 4. Add or update tests before declaring success.
 5. Update docs or runbooks when behavior or operations changed.
-6. Run local verification before handing off to the review step.
-7. Ensure the execution report matches the commands and outcomes you actually observed.
+6. If the change affects rollout, operator behavior, release notes, approvals, or other governance surfaces, write the required governance artifacts before handoff.
+7. Run local verification before handing off to the review step.
+8. Ensure the execution report and governance artifacts match the commands and outcomes you actually observed.
 
 ## Rules
 
@@ -26,6 +27,11 @@ Implement only what the task brief authorizes, then prove it.
 - If the first fix is shallow, keep iterating before presenting it.
 - Keep a short list of residual risks for review.
 - If a command passed, do not describe it as blocked or conditional in the report.
+- If production or rollout behavior changed, include:
+  - `approval_decision.md`
+  - `release_gate_decision.md`
+  - `release_artifact_package.md`
+- Governance artifacts must stay consistent with actual gate outcomes and reviewer-visible blockers.
 
 ## Output Contract
 
@@ -34,6 +40,7 @@ Implement only what the task brief authorizes, then prove it.
 - Verification results
 - Residual risks
 - Reviewer focus points
+- When required, approval / release gate / release artifact documents that mirror the templates in `docs/templates/`
 
 ## Read These References
 
@@ -48,3 +55,4 @@ Implement only what the task brief authorizes, then prove it.
 - Missing collision / stale / tie-case regressions
 - Reporting verification results inaccurately
 - Stopping after the first plausible fix
+- Forgetting approval or release artifacts on rollout-sensitive changes

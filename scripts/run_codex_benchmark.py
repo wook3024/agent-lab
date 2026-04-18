@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import time
@@ -29,11 +30,16 @@ PROMPTS = {
 }
 DISAGREEMENT_TEMPLATE = REPO_ROOT / "docs" / "templates" / "DISAGREEMENT_ANALYSIS_TEMPLATE.md"
 MAX_CODEX_ATTEMPTS = 3
+DEFAULT_CODEX_TIMEOUT_SECONDS = int(os.environ.get("CODEX_BENCHMARK_TIMEOUT_SECONDS", "900"))
+RUNTIME_CONFIG = {
+    "codex_timeout_seconds": DEFAULT_CODEX_TIMEOUT_SECONDS,
+}
 TRANSIENT_CODEX_ERROR_MARKERS = (
     "failed to connect to websocket",
     "failed to lookup address information",
     "TimedOut",
     "error sending request for url",
+    "__codex_timeout__",
 )
 
 
@@ -73,6 +79,14 @@ def render_prompt(path: Path, task_manifest: Path, run_dir: Path = None, workspa
     )
 
 
+def stringify_output(payload):
+    if payload is None:
+        return ""
+    if isinstance(payload, bytes):
+        return payload.decode("utf-8", errors="replace")
+    return payload
+
+
 def run_codex(prompt: str, workspace: Path, model: str, effort: str, output_path: Path, jsonl_path: Path, schema: Path = None):
     cmd = [
         "codex",
@@ -99,21 +113,41 @@ def run_codex(prompt: str, workspace: Path, model: str, effort: str, output_path
     cmd.append(prompt)
     combined_elapsed = 0.0
     last_error = None
+    timeout_seconds = RUNTIME_CONFIG["codex_timeout_seconds"]
     for attempt in range(1, MAX_CODEX_ATTEMPTS + 1):
         started_at = time.perf_counter()
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        try:
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=timeout_seconds,
+            )
+            stdout = result.stdout
+            stderr = result.stderr
+            returncode = result.returncode
+        except subprocess.TimeoutExpired as exc:
+            stdout = stringify_output(exc.stdout)
+            stderr = stringify_output(exc.stderr)
+            timeout_message = (
+                f"__codex_timeout__: command exceeded {timeout_seconds}s on attempt {attempt} "
+                f"for model={model} effort={effort}"
+            )
+            stderr = "\n".join(part for part in [stderr.strip(), timeout_message] if part).strip()
+            returncode = 124
+
         elapsed_seconds = round(time.perf_counter() - started_at, 3)
         combined_elapsed += elapsed_seconds
-        jsonl_path.write_text(result.stdout)
-        if result.stderr:
-            jsonl_path.with_suffix(".stderr.txt").write_text(result.stderr)
-        if result.returncode == 0:
+        jsonl_path.write_text(stdout)
+        if stderr:
+            jsonl_path.with_suffix(".stderr.txt").write_text(stderr)
+        if returncode == 0:
             return {
                 "usage": parse_usage(result.stdout),
                 "elapsed_seconds": round(combined_elapsed, 3),
             }
 
-        last_error = result.stderr or result.stdout
+        last_error = stderr or stdout
         if attempt < MAX_CODEX_ATTEMPTS and any(marker in last_error for marker in TRANSIENT_CODEX_ERROR_MARKERS):
             time.sleep(5 * attempt)
             continue
@@ -258,6 +292,21 @@ def get_evaluator_lanes(batch_cfg: dict, task_manifest: dict, run_cfg: dict):
     return lanes
 
 
+def filter_evaluator_lanes(evaluator_lanes: dict, only_lanes):
+    if not only_lanes:
+        return evaluator_lanes
+
+    filtered = {}
+    if "review" in evaluator_lanes:
+        filtered["review"] = evaluator_lanes["review"]
+    for lane in only_lanes:
+        if lane == "review":
+            continue
+        if lane in evaluator_lanes:
+            filtered[lane] = evaluator_lanes[lane]
+    return filtered
+
+
 def list_existing_run_dirs(batch_root: Path):
     return sorted(
         path
@@ -334,6 +383,18 @@ def reuse_review(run_dir: Path, existing_trace: dict):
     }
 
 
+def resume_additional_evaluator(run_dir: Path, lane: str):
+    index = load_evaluator_index(run_dir)
+    lane_meta = index.get("additional_lanes", {}).get(lane, {})
+    output_path = run_dir / "evaluators" / f"{lane}_findings.json"
+    manifest_path = run_dir / "evaluators" / f"{lane}_manifest.json"
+    findings = load_json(output_path)
+    return findings, {
+        "usage": lane_meta.get("usage", {}),
+        "elapsed_seconds": lane_meta.get("elapsed_seconds", 0.0),
+    }, manifest_path, output_path, lane_meta.get("disagreement_path")
+
+
 def write_evaluator_index(run_dir: Path, review_manifest_path: Path, review_findings: dict, evaluator_lanes: dict, extra_evaluators: dict):
     evaluator_dir = run_dir / "evaluators"
     evaluator_dir.mkdir(exist_ok=True)
@@ -347,6 +408,13 @@ def write_evaluator_index(run_dir: Path, review_manifest_path: Path, review_find
         "additional_lanes": extra_evaluators,
     }
     write_json(evaluator_dir / "index.json", payload)
+
+
+def load_evaluator_index(run_dir: Path):
+    index_path = run_dir / "evaluators" / "index.json"
+    if not index_path.exists():
+        return {}
+    return load_json(index_path)
 
 
 def create_disagreement_scaffold(run_dir: Path, task_id: str, lane: str, review_summary: dict, lane_summary: dict):
@@ -441,9 +509,14 @@ def execute_evaluators(
     *,
     existing_trace: dict = None,
     reuse_existing_review: bool = False,
+    selected_lanes=None,
+    resume_existing: bool = False,
 ):
-    evaluator_lanes = get_evaluator_lanes(batch_cfg, task_manifest, run_cfg)
-    if reuse_existing_review and existing_trace is not None and (run_dir / "review_findings.json").exists():
+    evaluator_lanes = filter_evaluator_lanes(
+        get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+        selected_lanes,
+    )
+    if (reuse_existing_review or resume_existing) and existing_trace is not None and (run_dir / "review_findings.json").exists():
         review_findings, review_result = reuse_review(run_dir, existing_trace)
     else:
         review_findings, review_result = run_review(
@@ -467,14 +540,19 @@ def execute_evaluators(
     for lane, lane_cfg in evaluator_lanes.items():
         if lane == "review":
             continue
-        findings, result, manifest_path, output_path = run_additional_evaluator(
-            lane,
-            task_manifest_path,
-            workspace,
-            lane_cfg["model"],
-            lane_cfg["effort"],
-            run_dir,
-        )
+        output_path = run_dir / "evaluators" / f"{lane}_findings.json"
+        if resume_existing and output_path.exists():
+            findings, result, manifest_path, output_path, prior_disagreement = resume_additional_evaluator(run_dir, lane)
+        else:
+            findings, result, manifest_path, output_path = run_additional_evaluator(
+                lane,
+                task_manifest_path,
+                workspace,
+                lane_cfg["model"],
+                lane_cfg["effort"],
+                run_dir,
+            )
+            prior_disagreement = None
         extra_evaluators[lane] = {
             "model": lane_cfg,
             "manifest_path": str(manifest_path),
@@ -488,6 +566,8 @@ def execute_evaluators(
             disagreement_docs[lane] = str(
                 create_disagreement_scaffold(run_dir, task_manifest["id"], lane, review_summary, lane_summary)
             )
+        elif prior_disagreement:
+            disagreement_docs[lane] = prior_disagreement
 
     for lane, path in disagreement_docs.items():
         extra_evaluators[lane]["disagreement_path"] = path
@@ -560,7 +640,7 @@ def create_workspace(task_id: str, run_id: str, batch_id: str):
     return run_dir, workspace
 
 
-def benchmark_one(run_cfg: dict, batch_cfg: dict, task_id: str):
+def benchmark_one(run_cfg: dict, batch_cfg: dict, task_id: str, *, selected_lanes=None):
     run_id = run_cfg["id"]
     batch_id = batch_cfg["batch_id"]
     run_dir, workspace = create_workspace(task_id, run_id, batch_id)
@@ -585,6 +665,7 @@ def benchmark_one(run_cfg: dict, batch_cfg: dict, task_id: str):
         task_manifest_path,
         workspace,
         run_dir,
+        selected_lanes=selected_lanes,
     )
 
     failure_tags = classify_failures(gate_results, changed_files)
@@ -622,7 +703,14 @@ def benchmark_one(run_cfg: dict, batch_cfg: dict, task_id: str):
     return trace
 
 
-def evaluate_existing_run(run_dir: Path, batch_cfg: dict, *, reuse_existing_review: bool = False):
+def evaluate_existing_run(
+    run_dir: Path,
+    batch_cfg: dict,
+    *,
+    reuse_existing_review: bool = False,
+    selected_lanes=None,
+    resume_existing: bool = False,
+):
     run_dir = run_dir.resolve()
     workspace = run_dir / "workspace"
     task_manifest_path = workspace / "benchmark_task.json"
@@ -642,6 +730,8 @@ def evaluate_existing_run(run_dir: Path, batch_cfg: dict, *, reuse_existing_revi
         run_dir,
         existing_trace=existing_trace,
         reuse_existing_review=reuse_existing_review,
+        selected_lanes=selected_lanes,
+        resume_existing=resume_existing,
     )
 
     updated_trace = dict(existing_trace)
@@ -685,10 +775,19 @@ def main():
     parser.add_argument("--existing-run-dir")
     parser.add_argument("--existing-batch-root")
     parser.add_argument("--reuse-existing-review", action="store_true")
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--only-lane", action="append")
+    parser.add_argument("--codex-timeout-seconds", type=int)
     parser.add_argument("--plan-only", action="store_true")
     args = parser.parse_args()
 
     batch_cfg = load_yaml(Path(args.config))
+    RUNTIME_CONFIG["codex_timeout_seconds"] = (
+        args.codex_timeout_seconds
+        or batch_cfg.get("codex_timeout_seconds")
+        or DEFAULT_CODEX_TIMEOUT_SECONDS
+    )
+    selected_lanes = set(args.only_lane or [])
     if args.existing_batch_root:
         batch_root = Path(args.existing_batch_root)
         plans = []
@@ -712,13 +811,22 @@ def main():
                         "run_id": run_id,
                         "task_id": task_id,
                         "candidate": run_cfg["candidate"],
-                        "evaluator_lanes": get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+                        "evaluator_lanes": filter_evaluator_lanes(
+                            get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+                            selected_lanes,
+                        ),
                     }
                 )
                 continue
             print(f"==> backfilling evaluators for {run_dir.name}")
             try:
-                trace = evaluate_existing_run(run_dir, batch_cfg, reuse_existing_review=args.reuse_existing_review)
+                trace = evaluate_existing_run(
+                    run_dir,
+                    batch_cfg,
+                    reuse_existing_review=args.reuse_existing_review,
+                    selected_lanes=selected_lanes,
+                    resume_existing=args.resume,
+                )
             except Exception as exc:  # noqa: BLE001
                 failures.append({"run_dir": str(run_dir), "error": str(exc)})
                 print(json.dumps({"run_dir": str(run_dir), "error": str(exc)}, indent=2))
@@ -739,11 +847,20 @@ def main():
                 "run_id": run_id,
                 "task_id": task_id,
                 "candidate": run_cfg["candidate"],
-                "evaluator_lanes": get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+                "evaluator_lanes": filter_evaluator_lanes(
+                    get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+                    selected_lanes,
+                ),
             }
             print(json.dumps(plan, indent=2))
             return
-        trace = evaluate_existing_run(run_dir, batch_cfg, reuse_existing_review=args.reuse_existing_review)
+        trace = evaluate_existing_run(
+            run_dir,
+            batch_cfg,
+            reuse_existing_review=args.reuse_existing_review,
+            selected_lanes=selected_lanes,
+            resume_existing=args.resume,
+        )
         print(json.dumps(trace, indent=2))
         return
 
@@ -762,12 +879,15 @@ def main():
                     "run_id": run_cfg["id"],
                     "task_id": task_id,
                     "candidate": run_cfg["candidate"],
-                    "evaluator_lanes": get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+                    "evaluator_lanes": filter_evaluator_lanes(
+                        get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+                        selected_lanes,
+                    ),
                 }
                 print(json.dumps(plan, indent=2))
                 continue
             print(f"==> running {run_cfg['id']} on {task_id}")
-            trace = benchmark_one(run_cfg, batch_cfg, task_id)
+            trace = benchmark_one(run_cfg, batch_cfg, task_id, selected_lanes=selected_lanes)
             update_batch_summary(batch_cfg["batch_id"], trace)
             print(json.dumps(trace, indent=2))
 

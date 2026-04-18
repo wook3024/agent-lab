@@ -4,6 +4,9 @@ Read and follow these local skills before acting:
 - `{repo_root}/skills/execution-engineering/SKILL.md`
 - `{repo_root}/skills/quality-gates-runner/SKILL.md`
 - `{repo_root}/skills/docs-sync/SKILL.md`
+- `{repo_root}/skills/approval-policy/SKILL.md`
+- `{repo_root}/skills/release-gate/SKILL.md`
+- `{repo_root}/skills/release-artifact-generator/SKILL.md`
 
 Read these inputs:
 
@@ -21,6 +24,11 @@ Workflow:
    - gate results
    - residual risks
    - reviewer focus points
+4. If the change affects production behavior, operational safety, rollout sequencing, release notes, approvals, or runbooks, also create:
+   - `benchmark_outputs/approval_decision.md`
+   - `benchmark_outputs/release_gate_decision.md`
+   - `benchmark_outputs/release_artifact_package.md`
+5. If the task stays purely local and none of those governance surfaces changed, say so explicitly in `execution_report.md`.
 
 Rules:
 
@@ -31,3 +39,5 @@ Rules:
 - Do not skip failing checks.
 - Update docs when required.
 - In `benchmark_outputs/execution_report.md`, report the gate command outcomes exactly as observed.
+- When governance artifacts are required, mirror the repo templates exactly and keep them consistent with actual gate outcomes.
+- Never mark release readiness as `release-ready` when any gate failed or any `High` reviewer concern remains unresolved.
