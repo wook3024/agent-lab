@@ -103,6 +103,15 @@
 - [x] dossier에 governance 자산 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 10. Registry Update Loop
+
+- [x] asset review workflow 문서화
+- [x] asset status change template 작성
+- [x] registry validator 스크립트 작성
+- [x] registry validator 실행 확인
+- [x] dossier에 registry 운영 자산 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -112,7 +121,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 9`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 10`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 
