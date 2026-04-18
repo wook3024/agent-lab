@@ -120,6 +120,16 @@
 - [x] dossier에 sample batch 자산 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 12. LLM Deep Validation System
+
+- [x] LLM 심층 검증 운영 모델 문서화
+- [x] LLM eval rubric template 작성
+- [x] disagreement analysis template 작성
+- [x] human calibration batch template 작성
+- [x] security / release / architecture evaluator prompt 작성
+- [x] dossier에 LLM validation 자산 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -129,7 +139,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 11`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 12`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 
