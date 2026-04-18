@@ -5,11 +5,13 @@ import argparse
 import json
 import shutil
 import subprocess
-import sys
 import time
 from pathlib import Path
 
 import yaml
+
+from build_evaluator_manifest import build_manifest, dump_manifest
+from validate_evaluator_bundle import validate_manifest
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -21,6 +23,9 @@ PROMPTS = {
     "c2_triage": REPO_ROOT / "agents" / "candidates" / "c2-triage.prompt.md",
     "c2_execution": REPO_ROOT / "agents" / "candidates" / "c2-execution.prompt.md",
     "review": REPO_ROOT / "agents" / "evaluators" / "review-evaluator.prompt.md",
+    "security": REPO_ROOT / "agents" / "evaluators" / "security-evaluator.prompt.md",
+    "release_gate": REPO_ROOT / "agents" / "evaluators" / "release-gate-evaluator.prompt.md",
+    "architecture": REPO_ROOT / "agents" / "evaluators" / "architecture-evaluator.prompt.md",
 }
 
 
@@ -30,6 +35,10 @@ def load_yaml(path: Path):
 
 def load_json(path: Path):
     return json.loads(path.read_text())
+
+
+def write_json(path: Path, payload: dict):
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True))
 
 
 def ensure_clean_dir(path: Path):
@@ -46,9 +55,14 @@ def init_git_repo(workspace: Path):
     subprocess.run(["git", "commit", "-q", "-m", "baseline"], cwd=workspace, check=True)
 
 
-def render_prompt(path: Path, task_manifest: Path):
+def render_prompt(path: Path, task_manifest: Path, run_dir: Path = None, workspace: Path = None):
     template = path.read_text()
-    return template.format(repo_root=str(REPO_ROOT), task_manifest=str(task_manifest))
+    return template.format(
+        repo_root=str(REPO_ROOT),
+        task_manifest=str(task_manifest),
+        run_dir=str(run_dir) if run_dir else "",
+        workspace=str(workspace) if workspace else "",
+    )
 
 
 def run_codex(prompt: str, workspace: Path, model: str, effort: str, output_path: Path, jsonl_path: Path, schema: Path = None):
@@ -148,6 +162,63 @@ def classify_failures(gate_results: dict, changed_files):
     return sorted(set(tags))
 
 
+def summarize_findings(findings: dict):
+    return {
+        "high": len(findings.get("high", [])),
+        "medium": len(findings.get("medium", [])),
+        "low": len(findings.get("low", [])),
+        "residual_risks": findings.get("residual_risks", []),
+    }
+
+
+def selector_matches(selector: dict, task_manifest: dict, run_cfg: dict):
+    if not selector:
+        return True
+
+    if selector.get("task_ids") and task_manifest.get("id") not in selector["task_ids"]:
+        return False
+
+    if selector.get("task_types") and task_manifest.get("task_type") not in selector["task_types"]:
+        return False
+
+    axes = set(task_manifest.get("complexity_axes", []))
+    any_axes = set(selector.get("any_complexity_axes", []))
+    if any_axes and not axes.intersection(any_axes):
+        return False
+
+    all_axes = set(selector.get("all_complexity_axes", []))
+    if all_axes and not all_axes.issubset(axes):
+        return False
+
+    if selector.get("run_ids") and run_cfg["id"] not in selector["run_ids"]:
+        return False
+
+    if selector.get("candidates") and run_cfg["candidate"] not in selector["candidates"]:
+        return False
+
+    return True
+
+
+def get_evaluator_lanes(batch_cfg: dict, task_manifest: dict, run_cfg: dict):
+    lanes = {
+        "review": {
+            "model": batch_cfg["review_evaluator"]["model"],
+            "effort": batch_cfg["review_evaluator"]["effort"],
+        }
+    }
+
+    for lane, lane_cfg in batch_cfg.get("additional_evaluators", {}).items():
+        if not lane_cfg.get("enabled", True):
+            continue
+        if selector_matches(lane_cfg.get("when", {}), task_manifest, run_cfg):
+            lanes[lane] = {
+                "model": lane_cfg["model"],
+                "effort": lane_cfg["effort"],
+            }
+
+    return lanes
+
+
 def write_trace(run_dir: Path, payload: dict):
     trace_path = run_dir / "trace_record.json"
     trace_path.write_text(json.dumps(payload, indent=2))
@@ -172,10 +243,28 @@ def update_batch_summary(batch_id: str, trace: dict):
 def run_review(task_manifest_path: Path, workspace: Path, model: str, effort: str, run_dir: Path):
     output_path = run_dir / "review_findings.json"
     jsonl_path = run_dir / "review_codex_events.jsonl"
-    prompt = render_prompt(PROMPTS["review"], task_manifest_path)
+    prompt = render_prompt(PROMPTS["review"], task_manifest_path, run_dir=run_dir, workspace=workspace)
     result = run_codex(prompt, workspace, model, effort, output_path, jsonl_path, schema=REVIEW_SCHEMA)
     findings = load_json(output_path)
     return findings, result
+
+
+def run_additional_evaluator(lane: str, task_manifest_path: Path, workspace: Path, model: str, effort: str, run_dir: Path):
+    evaluator_dir = run_dir / "evaluators"
+    evaluator_dir.mkdir(exist_ok=True)
+
+    manifest = build_manifest(run_dir, lane)
+    manifest_path = evaluator_dir / f"{lane}_manifest.json"
+    dump_manifest(manifest, manifest_path)
+    validate_manifest(manifest)
+
+    output_path = evaluator_dir / f"{lane}_findings.json"
+    jsonl_path = evaluator_dir / f"{lane}_codex_events.jsonl"
+    prompt = render_prompt(PROMPTS[lane], task_manifest_path, run_dir=run_dir, workspace=workspace)
+    result = run_codex(prompt, workspace, model, effort, output_path, jsonl_path, schema=REVIEW_SCHEMA)
+    findings = load_json(output_path)
+
+    return findings, result, manifest_path, output_path
 
 
 def run_c0(task_manifest_path: Path, workspace: Path, role_cfg: dict, run_dir: Path):
@@ -242,6 +331,7 @@ def benchmark_one(run_cfg: dict, batch_cfg: dict, task_id: str):
     run_dir, workspace = create_workspace(task_id, run_id, batch_id)
     task_manifest_path = workspace / "benchmark_task.json"
     task_manifest = load_json(task_manifest_path)
+    evaluator_lanes = get_evaluator_lanes(batch_cfg, task_manifest, run_cfg)
 
     started_at = time.perf_counter()
     if run_cfg["candidate"] == "c0":
@@ -256,45 +346,73 @@ def benchmark_one(run_cfg: dict, batch_cfg: dict, task_id: str):
     review_findings, review_result = run_review(
         task_manifest_path,
         workspace,
-        batch_cfg["review_evaluator"]["model"],
-        batch_cfg["review_evaluator"]["effort"],
+        evaluator_lanes["review"]["model"],
+        evaluator_lanes["review"]["effort"],
         run_dir,
     )
 
+    evaluator_dir = run_dir / "evaluators"
+    evaluator_dir.mkdir(exist_ok=True)
+    review_manifest = build_manifest(run_dir, "review")
+    review_manifest_path = evaluator_dir / "review_manifest.json"
+    dump_manifest(review_manifest, review_manifest_path)
+    validate_manifest(review_manifest)
+
+    extra_evaluators = {}
+    for lane, lane_cfg in evaluator_lanes.items():
+        if lane == "review":
+            continue
+        findings, result, manifest_path, output_path = run_additional_evaluator(
+            lane,
+            task_manifest_path,
+            workspace,
+            lane_cfg["model"],
+            lane_cfg["effort"],
+            run_dir,
+        )
+        extra_evaluators[lane] = {
+            "model": lane_cfg,
+            "manifest_path": str(manifest_path),
+            "findings_path": str(output_path),
+            "summary": summarize_findings(findings),
+            "usage": result["usage"],
+            "elapsed_seconds": result["elapsed_seconds"],
+        }
+
     failure_tags = classify_failures(gate_results, changed_files)
+    extra_high_findings = sum(item["summary"]["high"] for item in extra_evaluators.values())
     trace = {
         "run_id": f"{run_id}__{task_id}",
         "candidate_id": run_cfg["candidate"],
         "task_id": task_id,
         "model_mapping": run_cfg["roles"],
-        "review_model": batch_cfg["review_evaluator"],
+        "review_model": evaluator_lanes["review"],
+        "evaluator_lanes": evaluator_lanes,
         "changed_files": changed_files,
         "gate_results": {k: v["passed"] for k, v in gate_results.items()},
-        "review_results": {
-            "high": len(review_findings["high"]),
-            "medium": len(review_findings["medium"]),
-            "low": len(review_findings["low"]),
-        },
+        "review_results": summarize_findings(review_findings),
+        "evaluator_results": {lane: item["summary"] for lane, item in extra_evaluators.items()},
         "failure_taxonomy": failure_tags,
         "usage": {
             "candidate": candidate_result["usage"],
             "review": review_result["usage"],
+            "evaluators": {lane: item["usage"] for lane, item in extra_evaluators.items()},
         },
         "timing": {
             "candidate": candidate_result["timing"],
             "review_seconds": review_result["elapsed_seconds"],
+            "evaluator_seconds": {lane: item["elapsed_seconds"] for lane, item in extra_evaluators.items()},
             "gate_seconds": {
                 key: value["elapsed_seconds"] for key, value in gate_results.items()
             },
             "total_seconds": round(time.perf_counter() - started_at, 3),
         },
         "result": "pass"
-        if all(v["passed"] for v in gate_results.values()) and len(review_findings["high"]) == 0
+        if all(v["passed"] for v in gate_results.values()) and len(review_findings["high"]) == 0 and extra_high_findings == 0
         else "fail",
     }
     write_trace(run_dir, trace)
-    summary_path = run_dir / "gate_results.json"
-    summary_path.write_text(json.dumps(gate_results, indent=2))
+    write_json(run_dir / "gate_results.json", gate_results)
     return trace
 
 
@@ -303,6 +421,7 @@ def main():
     parser.add_argument("--config", default=str(REPO_ROOT / "benchmark" / "initial_matrix.yaml"))
     parser.add_argument("--run-id")
     parser.add_argument("--task-id")
+    parser.add_argument("--plan-only", action="store_true")
     args = parser.parse_args()
 
     batch_cfg = load_yaml(Path(args.config))
@@ -315,6 +434,16 @@ def main():
 
     for run_cfg in runs:
         for task_id in tasks:
+            task_manifest = load_json(SANDBOX_ROOT / task_id / "benchmark_task.json")
+            if args.plan_only:
+                plan = {
+                    "run_id": run_cfg["id"],
+                    "task_id": task_id,
+                    "candidate": run_cfg["candidate"],
+                    "evaluator_lanes": get_evaluator_lanes(batch_cfg, task_manifest, run_cfg),
+                }
+                print(json.dumps(plan, indent=2))
+                continue
             print(f"==> running {run_cfg['id']} on {task_id}")
             trace = benchmark_one(run_cfg, batch_cfg, task_id)
             update_batch_summary(batch_cfg["batch_id"], trace)

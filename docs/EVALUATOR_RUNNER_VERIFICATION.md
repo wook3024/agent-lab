@@ -64,12 +64,37 @@ python3 scripts/validate_evaluator_bundle.py \
 - diff는 `workspace` 내부 `git diff HEAD`로 읽을 수 있다
 - lane별 manifest를 별도 저장하는 구조가 현실적으로 동작한다
 
+## Plan-Only Lane Verification
+
+추가로 `benchmark/deep_validation_matrix.yaml` 기준으로
+task별 lane selection이 의도대로 되는지도 확인했다.
+
+### `tenant-cache-scope`
+
+- selected lanes:
+  - `review`
+  - `security`
+
+### `flag-rollout-fallback`
+
+- selected lanes:
+  - `review`
+  - `release_gate`
+
+### `presence-race`
+
+- selected lanes:
+  - `review`
+  - `architecture`
+
+즉, `additional_evaluators` selector가 task complexity axis 기준으로 정상 동작함을 확인했다.
+
 ## Remaining Gap
 
-현재는 manifest 생성과 validation까지만 자동화되어 있다.
+현재는 plan-only와 manifest/validator까지 자동화되어 있다.
 
 다음 단계는 아래다.
 
-1. lane별 prompt 실행 runner 추가
-2. evaluator result를 `artifacts/.../evaluators/` 아래 표준 저장
+1. 실제 batch에서 추가 evaluator lane를 켠 run 1회 수행
+2. evaluator result를 `artifacts/.../evaluators/` 아래 표준 저장 구조로 축적
 3. disagreement template 자동 scaffold 생성

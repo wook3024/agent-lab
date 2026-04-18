@@ -1,0 +1,42 @@
+batch_id: "deep-validation-plan-batch"
+tasks:
+  - "tenant-cache-scope"
+  - "flag-rollout-fallback"
+  - "presence-race"
+review_evaluator:
+  model: "gpt-5.4"
+  effort: "high"
+additional_evaluators:
+  security:
+    enabled: true
+    model: "gpt-5.4"
+    effort: "high"
+    when:
+      any_complexity_axes:
+        - "multi-tenant-isolation"
+  release_gate:
+    enabled: true
+    model: "gpt-5.4"
+    effort: "high"
+    when:
+      any_complexity_axes:
+        - "operational-safety"
+        - "telemetry"
+  architecture:
+    enabled: true
+    model: "gpt-5.4"
+    effort: "high"
+    when:
+      any_complexity_axes:
+        - "concurrency"
+        - "realtime-state"
+runs:
+  - id: "c2-all-gpt54-high"
+    candidate: "c2"
+    roles:
+      triage:
+        model: "gpt-5.4"
+        effort: "high"
+      execution:
+        model: "gpt-5.4"
+        effort: "high"

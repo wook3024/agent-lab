@@ -141,6 +141,16 @@
 - [x] dossier에 evaluator runner 자산 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 14. Inline Evaluator Lane Planning
+
+- [x] `run_codex_benchmark.py`에 config-driven evaluator lane selection 추가
+- [x] `deep_validation_matrix.yaml` 작성
+- [x] `--plan-only` 검증 모드 추가
+- [x] sample task별 lane selection 검증
+- [x] score aggregation에 additional evaluator finding 반영
+- [x] dossier에 lane planning 자산 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -150,7 +160,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 13`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 14`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 

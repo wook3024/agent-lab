@@ -18,8 +18,11 @@ def summarize(root: Path):
             "total": 0,
             "pass": 0,
             "high": 0,
+            "additional_high": 0,
             "medium": 0,
+            "additional_medium": 0,
             "low": 0,
+            "additional_low": 0,
             "token_total": 0,
             "total_seconds": 0.0,
             "failures": Counter(),
@@ -33,6 +36,10 @@ def summarize(root: Path):
         by_run[key]["high"] += trace["review_results"]["high"]
         by_run[key]["medium"] += trace["review_results"]["medium"]
         by_run[key]["low"] += trace["review_results"]["low"]
+        for evaluator in trace.get("evaluator_results", {}).values():
+            by_run[key]["additional_high"] += evaluator.get("high", 0)
+            by_run[key]["additional_medium"] += evaluator.get("medium", 0)
+            by_run[key]["additional_low"] += evaluator.get("low", 0)
         by_run[key]["token_total"] += sum_usage_tokens(trace.get("usage", {}))
         by_run[key]["total_seconds"] += float(trace.get("timing", {}).get("total_seconds", 0.0))
         for tag in trace["failure_taxonomy"]:
@@ -64,9 +71,9 @@ def derive_recommendations(summary):
         summary.items(),
         key=lambda item: (
             -item[1]["pass"],
-            item[1]["high"],
-            item[1]["medium"],
-            item[1]["low"],
+            item[1]["high"] + item[1]["additional_high"],
+            item[1]["medium"] + item[1]["additional_medium"],
+            item[1]["low"] + item[1]["additional_low"],
             sum(item[1]["failures"].values()),
             item[1]["token_total"],
         ),
@@ -76,15 +83,15 @@ def derive_recommendations(summary):
 
     min_sufficient_candidates = []
     for run_id, stats in sorted_runs:
-        if stats["high"] == 0 and stats["pass"] == stats["total"]:
+        if stats["high"] == 0 and stats["additional_high"] == 0 and stats["pass"] == stats["total"]:
             min_sufficient_candidates.append((run_id, stats))
 
     if min_sufficient_candidates:
         min_sufficient = sorted(
             min_sufficient_candidates,
             key=lambda item: (
-                item[1]["medium"],
-                item[1]["low"],
+                item[1]["medium"] + item[1]["additional_medium"],
+                item[1]["low"] + item[1]["additional_low"],
                 sum(item[1]["failures"].values()),
                 item[1]["token_total"],
             ),
@@ -110,8 +117,11 @@ def main():
             "total_tasks": stats["total"],
             "passed_tasks": stats["pass"],
             "high_findings": stats["high"],
+            "additional_high_findings": stats["additional_high"],
             "medium_findings": stats["medium"],
+            "additional_medium_findings": stats["additional_medium"],
             "low_findings": stats["low"],
+            "additional_low_findings": stats["additional_low"],
             "token_total": stats["token_total"],
             "total_seconds": round(stats["total_seconds"], 3),
             "avg_seconds_per_task": round(stats["total_seconds"] / stats["total"], 3) if stats["total"] else 0.0,

@@ -49,6 +49,10 @@ def build_manifest(run_dir: Path, lane: str):
     return manifest
 
 
+def dump_manifest(manifest: dict, output_path: Path):
+    output_path.write_text(json.dumps(manifest, indent=2, sort_keys=True))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-dir", required=True)
@@ -58,12 +62,11 @@ def main():
 
     run_dir = Path(args.run_dir).resolve()
     manifest = build_manifest(run_dir, args.lane)
-    payload = json.dumps(manifest, indent=2, sort_keys=True)
 
     if args.output:
-      Path(args.output).write_text(payload)
+        dump_manifest(manifest, Path(args.output))
     else:
-      print(payload)
+        print(json.dumps(manifest, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":

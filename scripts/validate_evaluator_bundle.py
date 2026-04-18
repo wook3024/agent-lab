@@ -36,23 +36,14 @@ def ensure_file(path_str: str, label: str):
         fail(f"missing {label}: {path}")
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--manifest", required=True)
-    args = parser.parse_args()
-
-    manifest_path = Path(args.manifest)
-    if not manifest_path.exists():
-        fail(f"manifest not found: {manifest_path}")
-
-    manifest = json.loads(manifest_path.read_text())
+def validate_manifest(manifest: dict):
     missing = REQUIRED_FIELDS - set(manifest.keys())
     if missing:
-        fail(f"manifest missing required fields: {sorted(missing)}")
+        raise ValueError(f"manifest missing required fields: {sorted(missing)}")
 
     lane = manifest["lane"]
     if lane not in ALLOWED_LANES:
-        fail(f"unsupported lane: {lane}")
+        raise ValueError(f"unsupported lane: {lane}")
 
     for field in [
         "run_dir",
@@ -65,19 +56,21 @@ def main():
         "trace_record",
         "review_findings",
     ]:
-        ensure_file(manifest[field], field)
+        path = Path(manifest[field])
+        if not path.exists():
+            raise ValueError(f"missing {field}: {path}")
 
     workspace = Path(manifest["workspace"])
     if not (workspace / ".git").exists():
-        fail(f"workspace is not a git repo: {workspace}")
+        raise ValueError(f"workspace is not a git repo: {workspace}")
 
     optional_artifacts = manifest["optional_artifacts"]
     if not isinstance(optional_artifacts, dict):
-        fail("optional_artifacts must be an object")
+        raise ValueError("optional_artifacts must be an object")
 
     diff_command = manifest["diff_command"]
     if not isinstance(diff_command, list) or not diff_command:
-        fail("diff_command must be a non-empty array")
+        raise ValueError("diff_command must be a non-empty array")
 
     result = subprocess.run(
         diff_command,
@@ -86,9 +79,25 @@ def main():
         text=True,
     )
     if result.returncode != 0:
-        fail(f"diff_command failed with code {result.returncode}")
+        raise ValueError(f"diff_command failed with code {result.returncode}")
 
-    print("evaluator-bundle-valid")
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--manifest", required=True)
+    args = parser.parse_args()
+
+    manifest_path = Path(args.manifest)
+    if not manifest_path.exists():
+        fail(f"manifest not found: {manifest_path}")
+
+    manifest = json.loads(manifest_path.read_text())
+    try:
+        validate_manifest(manifest)
+    except ValueError as exc:
+        fail(str(exc))
+    else:
+        print("evaluator-bundle-valid")
 
 
 if __name__ == "__main__":

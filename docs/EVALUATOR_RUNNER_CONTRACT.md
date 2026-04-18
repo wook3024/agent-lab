@@ -205,6 +205,48 @@ scripts/build_evaluator_manifest.py \
 scripts/validate_evaluator_bundle.py --manifest /tmp/review_manifest.json
 ```
 
+## Config-Driven Lane Selection
+
+runner는 `benchmark` config의 `additional_evaluators`를 읽어
+task별 complexity axis와 task type에 따라 lane를 선택할 수 있다.
+
+예시:
+
+```yaml
+additional_evaluators:
+  security:
+    enabled: true
+    model: "gpt-5.4"
+    effort: "high"
+    when:
+      any_complexity_axes:
+        - "multi-tenant-isolation"
+```
+
+지원 selector:
+
+- `task_ids`
+- `task_types`
+- `any_complexity_axes`
+- `all_complexity_axes`
+- `run_ids`
+- `candidates`
+
+## Plan-Only Verification
+
+실행 전에 어떤 lane가 붙는지 확인하려면:
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --run-id c2-all-gpt54-high \
+  --task-id tenant-cache-scope \
+  --plan-only
+```
+
+이 모드는 candidate execution이나 evaluator execution 없이
+선택된 lane 계획만 출력한다.
+
 ## Integration Guidance
 
 ### Near Term
@@ -215,7 +257,6 @@ scripts/validate_evaluator_bundle.py --manifest /tmp/review_manifest.json
 
 ### Medium Term
 
-- `run_codex_benchmark.py` 후속 단계에서 evaluator lane hook 추가
 - lane별 judge 결과를 trace에 연결
 - disagreement analysis 자동 scaffold 생성
 
