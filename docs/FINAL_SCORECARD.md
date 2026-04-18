@@ -37,3 +37,16 @@
 - Do not promote:
   - `C0` family for complex-case work
   - `execution = xhigh` as the default
+
+## Deep Validation Overlay
+
+`refined-skill-batch`에 additional evaluator lane를 붙인 뒤 결과는 더 보수적으로 바뀌었다.
+
+| Run | Review High | Addl High | Review Medium | Addl Medium | Pass | Interpretation |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `c0-gpt54-high` | 1 | 1 | 1 | 0 | 0 | code quality와 security 모두 승격 불가 |
+| `c2-all-gpt54-high` | 0 | 2 | 0 | 2 | 0 | 구현 품질은 가장 안정적이지만 release/approval artifact 부족으로 governance 승격 불가 |
+| `c2-execution-xhigh` | 1 | 1 | 0 | 0 | 0 | code correctness와 architecture 모두 승격 불가 |
+
+보수적으로 보면, deep validation 기준 refined batch에서는 `minimum sufficient config`가 아직 없다.  
+즉 현재 상태는 “기본 engineering default 추천”은 가능하지만, “governance까지 포함한 fully promoted default”는 아직 미확정이다.

@@ -16,6 +16,36 @@
   - `trace-eval-recorder`
   - optional: `research-grounded`
 
+## Deep Validation Status
+
+deep validation까지 포함하면 해석은 두 층으로 나뉜다.
+
+- engineering-quality default:
+  - 여전히 `C2 + all gpt-5.4/high`
+- governance-complete promotion:
+  - refined deep-validation 기준으로는 아직 `없음`
+
+이유는 다음과 같다.
+
+- `c2-all-gpt54-high`
+  - review lane에서는 가장 안정적이었다
+  - 하지만 `release_gate` lane에서 `high=2`, `medium=2`가 잡히며 release/approval artifact 부족이 드러났다
+- `c2-execution-xhigh`
+  - 상대 비교상 deep-validation 집계에서는 점수가 덜 나빠 보일 수 있다
+  - 그러나 review와 architecture 모두 `high=1`이라 승격 근거로 쓰면 안 된다
+- `c0-gpt54-high`
+  - review와 security 둘 다 승격 불가였다
+
+따라서 현재 가장 현실적인 운영 결론은 이렇다.
+
+- 코드 구현 품질 기본값: `C2 + all gpt-5.4/high`
+- release/approval까지 포함한 CTO-grade 승격 기본값: 보류
+- 다음 승격 조건:
+  - release artifact package
+  - approval decision
+  - release gate decision
+  - execution report fidelity 정합성
+
 ## Best Validated Default
 
 - `Triage/Context = gpt-5.4 / high`
@@ -97,3 +127,4 @@
 
 - 최고 품질 보장 default: `C2 + all gpt-5.4/high`
 - 비용 효율 최우선 승격 후보: `C2 + mini triage/context + gpt-5.4 execution/review`
+- 단, deep validation까지 통과한 fully promoted default는 아직 없다

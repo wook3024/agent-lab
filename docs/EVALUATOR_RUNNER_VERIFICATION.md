@@ -113,6 +113,64 @@ python3 scripts/run_codex_benchmark.py \
 - 기존 run의 `trace_record.json`은 evaluator 결과를 반영해 `result=fail`로 재계산됐다
 - `python3 scripts/validate_evaluator_bundle.py --manifest .../evaluators/release_gate_manifest.json`는 `evaluator-bundle-valid`를 반환했다
 
+## Additional Lane Verification
+
+### `c0-gpt54-high__tenant-cache-scope`
+
+실행:
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --existing-run-dir artifacts/benchmark_runs/refined-skill-batch/c0-gpt54-high__tenant-cache-scope
+```
+
+결과:
+
+- `security` lane 생성 완료
+- `security_findings.json`: `high=1`, `medium=0`, `low=0`
+- disagreement scaffold 생성:
+  - [disagreement_security.md](../artifacts/benchmark_runs/refined-skill-batch/c0-gpt54-high__tenant-cache-scope/evaluators/disagreement_security.md)
+
+### `c2-execution-xhigh__presence-race`
+
+실행:
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --existing-run-dir artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race \
+  --reuse-existing-review
+```
+
+결과:
+
+- `architecture` lane 생성 완료
+- `architecture_findings.json`: `high=1`, `medium=0`, `low=0`
+- review와 architecture가 같은 severity signature를 보여 disagreement scaffold는 생성되지 않았다
+
+## Existing-Batch Planning Verification
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --existing-batch-root artifacts/benchmark_runs/refined-skill-batch \
+  --plan-only
+```
+
+관찰 결과:
+
+- planned run:
+  - `c0-gpt54-high__tenant-cache-scope`
+  - `c2-all-gpt54-high__flag-rollout-fallback`
+  - `c2-execution-xhigh__presence-race`
+- skipped run:
+  - `c2-mini-triage-context__presence-race`
+  - missing artifacts:
+    - `gate_results.json`
+    - `review_findings.json`
+    - `trace_record.json`
+
 ## Remaining Gap
 
 현재는 아래까지 자동화되어 있다.
@@ -120,8 +178,10 @@ python3 scripts/run_codex_benchmark.py \
 - plan-only lane selection
 - manifest generation / validation
 - existing-run evaluator backfill
+- existing-batch planning with skip handling
 - `evaluators/index.json` 생성
+- disagreement scaffold auto-generation
 - trace / batch summary 갱신
 
-다음 단계는 disagreement template 자동 scaffold 생성과
-lane별 human calibration hook 연결이다.
+다음 단계는 lane별 human calibration hook과
+deep-validation scorecard 자동 승격 규칙 연결이다.

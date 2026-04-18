@@ -1,7 +1,8 @@
 {
   "additional_lanes": {
     "release_gate": {
-      "elapsed_seconds": 118.809,
+      "disagreement_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/evaluators/disagreement_release_gate.md",
+      "elapsed_seconds": 107.651,
       "findings_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/evaluators/release_gate_findings.json",
       "manifest_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/evaluators/release_gate_manifest.json",
       "model": {
@@ -13,14 +14,16 @@
         "low": 0,
         "medium": 2,
         "residual_risks": [
-          "[ops/feature_rollout.md](/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/ops/feature_rollout.md:1)\uc5d0 rollback \ubb38\uad6c\ub294 \uc788\uc5b4 `escalate`\uae4c\uc9c0 \uac08 \uc815\ub3c4\uc758 \ubb34\uac00\uc774\ub4dc \uc0c1\ud0dc\ub294 \uc544\ub2d9\ub2c8\ub2e4. \ub530\ub77c\uc11c \ud604\uc7ac \uc0c1\ud669\uc740 `escalate`\ubcf4\ub2e4\ub294 `hold`\uac00 \ub354 \uc815\ud655\ud569\ub2c8\ub2e4.",
-          "False-hold risk\ub294 \ubd84\uba85\ud569\ub2c8\ub2e4. [execution_report.md](/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-all-gpt54-high__flag-rollout-fallback/workspace/benchmark_outputs/execution_report.md:35)\uc758 stale compile \uc2e4\ud328 \uae30\ub85d\ub9cc \ubcf4\uba74 \ubd88\ud544\uc694\ud558\uac8c \ubcf4\uc218\uc801\uc73c\ub85c \ub9c9\uc744 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \ucf54\ub4dc\uc640 \uc2e4\uc81c gate \uc0c1\ud0dc\ub9cc \ubcf4\uba74 \uacfc\ub3c4\ud55c hold \uc0ac\uc720\ub294 \ud06c\uc9c0 \uc54a\uace0, \uc9c0\uae08\uc758 hold \uadfc\uac70\ub294 \uc8fc\ub85c \ub204\ub77d\ub41c \uc2b9\uc778/\ub9b4\ub9ac\uc2a4 \uc0b0\ucd9c\ubb3c\uc785\ub2c8\ub2e4."
+          "\ucf54\ub4dc correctness \uce21\uba74\uc758 blocker\ub294 \ucc3e\uc9c0 \ubabb\ud588\uc2b5\ub2c8\ub2e4. \ud604\uc7ac diff \uae30\uc900\uc73c\ub85c `app/flags.py:5-13`\ub294 `ConfigError`\uc5d0\uc11c fail closed \ud558\uace0, `app/telemetry.py:9-20`\ub294 \ubc18\ud658\ub41c `enabled`\uc640 \uc77c\uce58\ud558\ub294 `variant`\ub97c 1\ud68c\ub9cc \uae30\ub85d\ud558\uba70, `tests/test_flag_rollout_fallback.py:8-97`\uac00 \uc774\ub97c \uc9c1\uc811 \uac80\uc99d\ud569\ub2c8\ub2e4.",
+          "\uc694\uad6c\ub41c gate \uba85\ub839\uc740 \ubaa8\ub450 \uc9c1\uc811 \uc7ac\uc2e4\ud589\ud588\uc2b5\ub2c8\ub2e4. `python3 -m unittest discover -s tests -v`, `python3 -m compileall app tests`, `python3 scripts/docs_check.py`\uac00 \ud604\uc7ac \uc0cc\ub4dc\ubc15\uc2a4\uc5d0\uc11c \ubaa8\ub450 \ud1b5\uacfc\ud588\uc2b5\ub2c8\ub2e4.",
+          "False-hold risk\ub294 \ubd84\uba85\ud788 \uc788\uc2b5\ub2c8\ub2e4. `benchmark_outputs/execution_report.md`\uc758 stale compile \uc2e4\ud328\ub9cc \ubcf4\uace0 \ub9c9\ub294 \uac83\uc740 \uacfc\ub3c4\ud558\uac8c \ubcf4\uc218\uc801\uc77c \uc218 \uc788\uc2b5\ub2c8\ub2e4. approval/release artifacts\ub9cc \ubcf4\uac15\ub418\uace0 \uc2e4\ud589 \ubcf4\uace0\uc11c \ubd88\uc77c\uce58\uac00 \uc815\ub9ac\ub418\uba74 `release-ready`\ub85c \uc7ac\ud3c9\uac00\ub420 \uac00\ub2a5\uc131\uc774 \ud07d\ub2c8\ub2e4.",
+          "`escalate`\ub294 \uacfc\ud55c \ud310\ub2e8\uc785\ub2c8\ub2e4. `ops/feature_rollout.md:5`\uc5d0 rollback \uc9c0\uce68\uc774 \uc788\uc5b4 rollback gap \uc790\uccb4\ub294 \ud06c\uc9c0 \uc54a\uace0, \ud604\uc7ac \ubb38\uc81c\ub294 \uc8fc\ub85c \uc2b9\uc778 \uae30\ub85d\uacfc \ub9b4\ub9ac\uc2a4 \uc0b0\ucd9c\ubb3c \uc644\uacb0\uc131\uc785\ub2c8\ub2e4."
         ]
       },
       "usage": {
-        "cached_input_tokens": 510976,
-        "input_tokens": 585618,
-        "output_tokens": 6093
+        "cached_input_tokens": 525952,
+        "input_tokens": 602866,
+        "output_tokens": 5663
       }
     }
   },
@@ -36,8 +39,8 @@
       "low": 0,
       "medium": 0,
       "residual_risks": [
-        "\uc800\uc7a5\ub41c `benchmark_outputs/execution_report.md`\uc5d0\ub294 `python3 -m compileall app tests`\uac00 Apple Python cache \uad8c\ud55c \ubb38\uc81c\ub85c \uc2e4\ud328\ud588\ub2e4\uace0 \uc801\ud600 \uc788\uc9c0\ub9cc, \ud604\uc7ac \uc0cc\ub4dc\ubc15\uc2a4\uc5d0\uc11c \ub3d9\uc77c \uba85\ub839\uc744 \uc7ac\uc2e4\ud589\ud55c \uacb0\uacfc\ub294 \ud1b5\uacfc\ud588\uc2b5\ub2c8\ub2e4. \uc0b0\ucd9c\ubb3c \uac04 \uac80\uc99d \uae30\ub85d \ubd88\uc77c\uce58\ub294 \ud6c4\uc18d \uc790\ub3d9 \ud310\uc815\uc5d0\uc11c \ud63c\uc120\uc744 \uc904 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
-        "\ub204\ub77d\ub41c flag \uac12\uc740 \ud604\uc7ac\ub3c4 `remote_values.get(...) -> None` \ub4a4 `bool(value)`\ub85c `False` \ucc98\ub9ac\ub429\ub2c8\ub2e4. \uc774\ub294 \uc774\ubc88 \uacfc\uc81c\uc758 \ube44\ubaa9\ud45c\uc640 \uc77c\uce58\ud558\uc9c0\ub9cc, \ud574\ub2f9 \uc758\ubbf8\uac00 \uc815\ucc45\uc801\uc73c\ub85c \uc758\ub3c4\ub41c \uac83\uc778\uc9c0 \ubb38\uc11c\ub098 \ud14c\uc2a4\ud2b8\ub85c \uba85\uc2dc\ub418\uc9c0\ub294 \uc54a\uc558\uc2b5\ub2c8\ub2e4."
+        "\uc800\uc7a5\ub41c `benchmark_outputs/execution_report.md`\uc5d0\ub294 `compile_pass` \uc2e4\ud328\uac00 \ub0a8\uc544 \uc788\uc9c0\ub9cc, \ud604\uc7ac \uc0cc\ub4dc\ubc15\uc2a4\uc5d0\uc11c \uac19\uc740 \uba85\ub839\uc744 \uc7ac\uc2e4\ud589\ud55c \uacb0\uacfc\uc640 `gate_results.json`\uc740 \ubaa8\ub450 \ud1b5\uacfc\ub85c \uc77c\uce58\ud569\ub2c8\ub2e4. \ud6c4\uc18d \uc790\ub3d9 \ud310\uc815\uc774 \uc5b4\ub5a4 \uc0b0\ucd9c\ubb3c\uc744 \uae30\uc900\uc73c\ub85c \uc0bc\ub294\uc9c0\uc5d0 \ub530\ub77c \ud63c\uc120\uc774 \uc0dd\uae38 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
+        "\ub204\ub77d\ub41c flag \uac12\uc774 `remote_values.get(...) -> None`\uc744 \uac70\uccd0 \uc554\ubb35\uc801\uc73c\ub85c `False`\uac00 \ub418\ub294 \ub3d9\uc791\uc740 \uc774\ubc88 \uc218\uc815 \ubc94\uc704\uc640\ub294 \ub9de\uc9c0\ub9cc, \ud574\ub2f9 \uc758\ubbf8\uac00 \ubb38\uc11c\ub098 \ud14c\uc2a4\ud2b8\ub85c \uba85\uc2dc\ub418\uc9c0\ub294 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \ud5a5\ud6c4 \uc815\ucc45\uc774 \ub2ec\ub77c\uc9c0\uba74 \ubcc4\ub3c4 \uba85\uc138\uac00 \ud544\uc694\ud569\ub2c8\ub2e4."
       ]
     }
   }

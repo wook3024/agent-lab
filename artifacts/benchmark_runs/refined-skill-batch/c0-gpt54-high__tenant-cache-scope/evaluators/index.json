@@ -1,0 +1,45 @@
+{
+  "additional_lanes": {
+    "security": {
+      "disagreement_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c0-gpt54-high__tenant-cache-scope/evaluators/disagreement_security.md",
+      "elapsed_seconds": 96.43,
+      "findings_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c0-gpt54-high__tenant-cache-scope/evaluators/security_findings.json",
+      "manifest_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c0-gpt54-high__tenant-cache-scope/evaluators/security_manifest.json",
+      "model": {
+        "effort": "high",
+        "model": "gpt-5.4"
+      },
+      "summary": {
+        "high": 1,
+        "low": 0,
+        "medium": 0,
+        "residual_risks": [
+          "\ud604\uc7ac \ucd94\uc801\ub41c \uc560\ud50c\ub9ac\ucf00\uc774\uc158 diff(`app/cache_keys.py`, `app/project_summary_service.py`)\ub9cc \ub193\uace0 \ubcf4\uba74 tenant-scoped cache key\ub85c\uc758 \ubcc0\uacbd\uc740 \uad00\ucc30 \uac00\ub2a5 \ubc94\uc704\uc5d0\uc11c \uad50\ucc28 \ud14c\ub10c\ud2b8 \uce90\uc2dc \ub178\ucd9c \uacbd\ub85c\ub97c \ub2eb\uace0 \uc788\uc73c\uba70, auth/RBAC\u00b7PII/secret flow\u00b7audit logging \uba74\uc758 \uc2e0\uaddc \ud68c\uadc0\ub294 \ud655\uc778\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.",
+          "\ud3c9\uac00 \ud2b8\ub9ac\uac70\ub294 auth/RBAC, PII, auditability\uae4c\uc9c0 \ub113\uac8c \uc694\uad6c\ud588\uc9c0\ub9cc \uc2e4\uc81c \ubcc0\uacbd\uba74\uc740 cache key scope\uc640 \ubb38\uc11c/\ud14c\uc2a4\ud2b8\uc5d0 \uac70\uc758 \ud55c\uc815\ub3fc \uc788\uc5b4, \uc774\ubc88 \ucf00\uc774\uc2a4\uc5d0\uc11c\ub294 \ud574\ub2f9 \ud56d\ubaa9\ub4e4\uc5d0 \ub300\ud55c \ud2b8\ub9ac\uac70\uac00 \ub2e4\uc18c broad/noisy\ud588\uc2b5\ub2c8\ub2e4.",
+          "`SimpleCache` \uc678 \ub2e4\ub978 backend\uc640\uc758 \ud638\ud658\uc131\uc774\ub098 \ud0a4 \uc9c1\ub82c\ud654 \ubc29\uc2dd\uc740 \ud604\uc7ac sandbox \uc544\ud2f0\ud329\ud2b8\ub9cc\uc73c\ub85c \uac80\uc99d\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \ud5a5\ud6c4 string-only cache backend\ub85c \ubc14\ub00c\uba74 tenant-scoped key\uac00 \ub3d9\uc77c\ud558\uac8c \ubcf4\uc874\ub418\ub294\uc9c0 \ubcc4\ub3c4 \ud655\uc778\uc774 \ud544\uc694\ud569\ub2c8\ub2e4."
+        ]
+      },
+      "usage": {
+        "cached_input_tokens": 739712,
+        "input_tokens": 812324,
+        "output_tokens": 4306
+      }
+    }
+  },
+  "review": {
+    "findings_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c0-gpt54-high__tenant-cache-scope/review_findings.json",
+    "manifest_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c0-gpt54-high__tenant-cache-scope/evaluators/review_manifest.json",
+    "model": {
+      "effort": "high",
+      "model": "gpt-5.4"
+    },
+    "summary": {
+      "high": 1,
+      "low": 0,
+      "medium": 1,
+      "residual_risks": [
+        "\ud604\uc7ac \uac80\uc99d\uc740 `SimpleCache` \uae30\ubc18 \uba54\ubaa8\ub9ac \uce90\uc2dc\uc5d0\ub9cc \ud55c\uc815\ub418\uc5b4 \uc788\uc5b4, tuple key\ub97c \ub2e4\ub978 cache backend\ub85c \uc804\ub2ec\ud558\ub294 \uacbd\ub85c\uc758 \ud638\ud658\uc131\uc740 \ud655\uc778\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4."
+      ]
+    }
+  }
+}

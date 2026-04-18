@@ -276,6 +276,52 @@ artifacts/benchmark_runs/<batch_id>/<run_id>__<task_id>/evaluators/
   <lane>_codex_events.jsonl
 ```
 
+`--reuse-existing-review`를 함께 주면 기존 `review_findings.json`,
+기존 trace의 `usage.review`, `timing.review_seconds`를 재사용하고
+additional lane만 새로 실행한다.
+
+예시:
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --existing-run-dir artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race \
+  --reuse-existing-review
+```
+
+## Existing-Batch Backfill Mode
+
+완결된 run이 여러 개 있는 batch root에 대해 일괄 backfill도 가능하다.
+
+```bash
+python3 scripts/run_codex_benchmark.py \
+  --config benchmark/deep_validation_matrix.yaml \
+  --existing-batch-root artifacts/benchmark_runs/refined-skill-batch \
+  --plan-only
+```
+
+실행 모드에서는:
+
+- ready run만 순서대로 처리
+- `gate_results.json`, `review_findings.json`, `trace_record.json`가 없는 run은 skip
+- 개별 run 실패가 나도 다음 run으로 진행
+
+plan-only 결과는 `planned`와 `skipped` 목록을 함께 출력한다.
+
+## Disagreement Scaffold
+
+review lane와 additional lane의 severity signature가 다르면
+runner는 자동으로 disagreement scaffold를 생성한다.
+
+생성 위치:
+
+```text
+artifacts/.../evaluators/disagreement_<lane>.md
+```
+
+추가로 `evaluators/index.json`의 lane metadata에도
+`disagreement_path`를 기록한다.
+
 ## Integration Guidance
 
 ### Near Term

@@ -162,6 +162,18 @@
 - [x] verification 문서에 actual backfill 결과 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 16. Batch-Wide Deep Validation
+
+- [x] `--existing-batch-root` batch planning 모드 추가
+- [x] incomplete run skip 규칙 추가
+- [x] batch-wide failure isolation 추가
+- [x] `--reuse-existing-review` 최적화 추가
+- [x] disagreement scaffold 자동 생성 연결
+- [x] deep-validation scorecard 렌더러 추가
+- [x] refined batch deep-validation scorecard 생성
+- [x] 추천/최종 scorecard 문서에 deep-validation 해석 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -171,7 +183,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 15`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 16`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 

@@ -1,0 +1,44 @@
+{
+  "additional_lanes": {
+    "architecture": {
+      "elapsed_seconds": 78.622,
+      "findings_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race/evaluators/architecture_findings.json",
+      "manifest_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race/evaluators/architecture_manifest.json",
+      "model": {
+        "effort": "high",
+        "model": "gpt-5.4"
+      },
+      "summary": {
+        "high": 1,
+        "low": 0,
+        "medium": 0,
+        "residual_risks": [
+          "[tests/test_presence_race.py:29](</Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race/workspace/tests/test_presence_race.py:29>) \ud604\uc7ac \ud68c\uadc0 \ud14c\uc2a4\ud2b8\ub294 '\ucd5c\uc2e0 \uc138\uc158\uc774 \uc774\ubbf8 \ub04a\uae34 \ub4a4 \ub2a6\uac8c \uc628 \ub354 \uc624\ub798\ub41c connected' \uacbd\ub85c\ub97c \ub2e4\ub8e8\uc9c0 \uc54a\uc544, \uc704 sequencing \uacb0\ud568\uc774 \ub2e4\uc2dc \ub4e4\uc5b4\uc640\ub3c4 \uc7a1\uc544\uc8fc\uc9c0 \ubabb\ud569\ub2c8\ub2e4.",
+          "`should_accept_event`\ub97c \uacf5\uc6a9 \uaddc\uce59\uc73c\ub85c \ub454 \uc120\ud0dd \uc790\uccb4\uc640 `presence_hub`\uac00 \uc800\uc7a5\uc18c \uc2a4\ub0c5\uc0f7 \ub4a4\uc5d0 \ud074\ub77c\uc774\uc5b8\ud2b8 \ubcd1\ud569\uc744 \uc218\ud589\ud558\ub3c4\ub85d \ud55c \uad6c\uc870\ub294 \uc774\ubc88 \uc791\uc5c5 \ubc94\uc704\uc5d0 \ub9de\ub294 \uc9d1\uc911\ub41c \uc218\uc815\uc774\uc5c8\uc2b5\ub2c8\ub2e4. \ubb38\uc81c\ub294 \ucd94\uc0c1\ud654\uac00 \uacfc\ud55c \ub370 \uc788\uc9c0 \uc54a\uace0, \ucd5c\uc2e0\uc131 \uc0c1\ud0dc\ub97c disconnect \uc774\ud6c4\uae4c\uc9c0 \ubcf4\uc874\ud558\uc9c0 \ubabb\ud574 ownership\uc774 lifecycle \uc804\ubc18\uc73c\ub85c \ub2eb\ud788\uc9c0 \uc54a\uc740 \uc810\uc785\ub2c8\ub2e4."
+        ]
+      },
+      "usage": {
+        "cached_input_tokens": 665984,
+        "input_tokens": 676521,
+        "output_tokens": 3767
+      }
+    }
+  },
+  "review": {
+    "findings_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race/review_findings.json",
+    "manifest_path": "/Users/shinukyi/Gallary/projects/proto/agent-lab/artifacts/benchmark_runs/refined-skill-batch/c2-execution-xhigh__presence-race/evaluators/review_manifest.json",
+    "model": {
+      "effort": "high",
+      "model": "gpt-5.4"
+    },
+    "summary": {
+      "high": 1,
+      "low": 0,
+      "medium": 0,
+      "residual_risks": [
+        "\ud604\uc7ac \ud14c\uc2a4\ud2b8\ub294 \ucd5c\uc2e0 \uc138\uc158\uc774 \ub04a\uae34 \ub4a4 \ub2a6\uac8c \uc628 \uc624\ub798\ub41c `connected` \uc774\ubca4\ud2b8\uac00 \ub2e4\uc2dc \uc138\uc158\uc744 \uc0b4\ub9ac\ub294 \uacbd\ub85c\ub97c \uac80\uc99d\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4. \uc774\ubc88 \uacb0\ud568\uc774 \uc218\uc815\ub418\uba74 \uadf8 \uc2dc\ub098\ub9ac\uc624\ub97c \ud68c\uadc0 \ud14c\uc2a4\ud2b8\uc5d0 \ucd94\uac00\ud574 \ub450\ub294 \uac83\uc774 \uc548\uc804\ud569\ub2c8\ub2e4.",
+        "\uc9c1\uc811 \uc2e4\ud589\ud55c \uac8c\uc774\ud2b8 \uba85\ub839\uc740 \ud604\uc7ac \ubaa8\ub450 \ud1b5\uacfc\ud588\uc2b5\ub2c8\ub2e4: `python3 -m unittest discover -s tests -v`, `python3 -m compileall app tests`, `python3 scripts/docs_check.py`."
+      ]
+    }
+  }
+}
