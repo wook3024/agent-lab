@@ -1,0 +1,348 @@
+topologies:
+  - asset_id: "c2-controlled-dual-pass"
+    asset_type: "topology"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+      - "docs/FINAL_SCORECARD.md"
+    depends_on:
+      - "triage-agent"
+      - "execution-agent"
+      - "review-agent"
+    decision_gate: "keep-unless-complex-case-quality-regresses"
+    notes: "complex-case 기본 운영 경로"
+
+  - asset_id: "c0-codex-solo"
+    asset_type: "topology"
+    status: "deprecated"
+    owner: "agent-lab-maintainer"
+    default_on: false
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+      - "docs/FINAL_SCORECARD.md"
+    replacement_candidate: "c2-controlled-dual-pass"
+    decision_gate: "retain-for-benchmark-baseline-only"
+    notes: "complex-case 운영 기본값으로는 사용하지 않음"
+
+agents:
+  - asset_id: "triage-agent"
+    asset_type: "agent"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "docs/roles/TRIAGE_AGENT_ROLE.md"
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+    decision_gate: "keep-as-core"
+    notes: "goal, non-goals, invariants를 고정하는 핵심 agent"
+
+  - asset_id: "execution-agent"
+    asset_type: "agent"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "docs/roles/EXECUTION_AGENT_ROLE.md"
+      - "docs/FINAL_SCORECARD.md"
+    decision_gate: "keep-as-core"
+    notes: "구현, 테스트, docs sync의 중심 agent"
+
+  - asset_id: "review-agent"
+    asset_type: "agent"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "docs/roles/REVIEW_AGENT_ROLE.md"
+      - "docs/FINAL_SCORECARD.md"
+    decision_gate: "keep-as-core"
+    notes: "독립 review lane의 핵심 agent"
+
+  - asset_id: "release-gate-agent"
+    asset_type: "agent"
+    status: "pilot"
+    owner: "cto-office"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "docs/roles/RELEASE_GATE_AGENT_ROLE.md"
+      - "docs/CTO_CONTROL_PLANE_BACKLOG.md"
+    depends_on:
+      - "release-gate"
+      - "approval-policy"
+    decision_gate: "needs-2-pilot-batches"
+    notes: "release-sensitive task에서만 활성화"
+
+  - asset_id: "security-review-agent"
+    asset_type: "agent"
+    status: "pilot"
+    owner: "security-engineering"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "docs/roles/SECURITY_REVIEW_AGENT_ROLE.md"
+      - "docs/CTO_CONTROL_PLANE_BACKLOG.md"
+    depends_on:
+      - "security-review"
+      - "ownership-routing"
+    decision_gate: "needs-security-trigger-precision-check"
+    notes: "auth, PII, secret, trust-boundary touched changes에서만 사용"
+
+skills:
+  - asset_id: "task-brief-author"
+    asset_type: "skill"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "skills/task-brief-author/SKILL.md"
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+    decision_gate: "keep-as-core"
+    notes: "invariant-first planning contract"
+
+  - asset_id: "context-pack-builder"
+    asset_type: "skill"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "skills/context-pack-builder/SKILL.md"
+      - "docs/CTO_REQUIRED_AGENT_SKILL_ASSESSMENT.md"
+    decision_gate: "keep-as-core"
+    notes: "wrong-context를 줄이는 기본 context builder"
+
+  - asset_id: "execution-engineering"
+    asset_type: "skill"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "skills/execution-engineering/SKILL.md"
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+    decision_gate: "keep-as-core"
+    notes: "smallest coherent diff, regression coverage, docs sync"
+
+  - asset_id: "quality-gates-runner"
+    asset_type: "skill"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "initial-batch-2026-q2"
+    evidence:
+      - "skills/quality-gates-runner/SKILL.md"
+      - "docs/FINAL_SCORECARD.md"
+    decision_gate: "keep-as-core"
+    notes: "deterministic verification layer"
+
+  - asset_id: "review-findings"
+    asset_type: "skill"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "initial-batch-2026-q2"
+    evidence:
+      - "skills/review-findings/SKILL.md"
+      - "docs/CTO_REQUIRED_AGENT_SKILL_ASSESSMENT.md"
+    decision_gate: "revisit-merge-candidate-later"
+    notes: "현재는 standard이나 이후 review contract로 흡수 검토 가능"
+
+  - asset_id: "docs-sync"
+    asset_type: "skill"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "initial-batch-2026-q2"
+    evidence:
+      - "skills/docs-sync/SKILL.md"
+      - "docs/CTO_REQUIRED_AGENT_SKILL_ASSESSMENT.md"
+    decision_gate: "keep-as-core"
+    notes: "문서/런북 드리프트 방지"
+
+  - asset_id: "trace-eval-recorder"
+    asset_type: "skill"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "initial-batch-2026-q2"
+    evidence:
+      - "skills/trace-eval-recorder/SKILL.md"
+      - "docs/FINAL_SCORECARD.md"
+    decision_gate: "keep-as-core"
+    notes: "trace와 scorecard의 운영 중심축"
+
+  - asset_id: "release-gate"
+    asset_type: "skill"
+    status: "pilot"
+    owner: "cto-office"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/release-gate/SKILL.md"
+      - "docs/PILOT_TEAM_DEPLOYMENT_PLAYBOOK.md"
+    depends_on:
+      - "approval-policy"
+      - "release-artifact-generator"
+    decision_gate: "needs-2-pilot-batches"
+    notes: "release-sensitive task에만 trigger"
+
+  - asset_id: "approval-policy"
+    asset_type: "skill"
+    status: "pilot"
+    owner: "cto-office"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/approval-policy/SKILL.md"
+      - "docs/PILOT_TEAM_DEPLOYMENT_PLAYBOOK.md"
+    decision_gate: "needs-approval-miss-rate-check"
+    notes: "approval-required detection precision 확인 필요"
+
+  - asset_id: "security-review"
+    asset_type: "skill"
+    status: "pilot"
+    owner: "security-engineering"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/security-review/SKILL.md"
+      - "docs/PILOT_TEAM_DEPLOYMENT_PLAYBOOK.md"
+    depends_on:
+      - "ownership-routing"
+    decision_gate: "needs-security-trigger-precision-check"
+    notes: "auth, PII, secret, trust-boundary touched 변경 전용"
+
+  - asset_id: "ownership-routing"
+    asset_type: "skill"
+    status: "pilot"
+    owner: "platform-runtime"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/ownership-routing/SKILL.md"
+      - "docs/PILOT_OWNER_MAP_SAMPLE.yaml"
+    decision_gate: "needs-owner-map-accuracy-check"
+    notes: "critical service와 reviewer/approver route 계산"
+
+  - asset_id: "owner-aware-context-builder"
+    asset_type: "skill"
+    status: "pilot"
+    owner: "platform-runtime"
+    default_on: true
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/owner-aware-context-builder/SKILL.md"
+      - "docs/PILOT_TEAM_DEPLOYMENT_PLAYBOOK.md"
+    depends_on:
+      - "ownership-routing"
+    decision_gate: "needs-pilot-batch-context-quality-check"
+    notes: "pilot default route에 포함되지만 아직 standard 승격 전"
+
+  - asset_id: "release-artifact-generator"
+    asset_type: "skill"
+    status: "pilot"
+    owner: "release-engineering"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/release-artifact-generator/SKILL.md"
+      - "docs/PILOT_TEAM_DEPLOYMENT_PLAYBOOK.md"
+    depends_on:
+      - "release-gate"
+    decision_gate: "needs-operator-handoff-validation"
+    notes: "release gate 결과를 operator handoff로 변환"
+
+  - asset_id: "research-grounded"
+    asset_type: "skill"
+    status: "conditional"
+    owner: "agent-lab-maintainer"
+    default_on: false
+    last_validated_batch: "initial-batch-2026-q2"
+    evidence:
+      - "skills/research-grounded/SKILL.md"
+      - "docs/CTO_REQUIRED_AGENT_SKILL_ASSESSMENT.md"
+    decision_gate: "trigger-only"
+    notes: "외부 SDK, 정책, 프로토콜 제약이 핵심일 때만 사용"
+
+  - asset_id: "cost-governance-trace"
+    asset_type: "skill"
+    status: "conditional"
+    owner: "cto-office"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/cost-governance-trace/SKILL.md"
+      - "docs/CTO_CONTROL_PLANE_BACKLOG.md"
+    decision_gate: "needs-batch-cost-rollup"
+    notes: "quality/cost 비교가 필요한 batch에서만 활성화"
+
+  - asset_id: "incident-mode-policy"
+    asset_type: "skill"
+    status: "conditional"
+    owner: "incident-commander"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/incident-mode-policy/SKILL.md"
+      - "docs/CTO_CONTROL_PLANE_BACKLOG.md"
+    decision_gate: "incident-only"
+    notes: "incident/hotfix/freeze override 상황 전용"
+
+  - asset_id: "architecture-review"
+    asset_type: "skill"
+    status: "conditional"
+    owner: "staff-engineering"
+    default_on: false
+    last_validated_batch: "pilot-prep-docs-2026-q2"
+    evidence:
+      - "skills/architecture-review/SKILL.md"
+      - "docs/CTO_CONTROL_PLANE_BACKLOG.md"
+    decision_gate: "structural-risk-only"
+    notes: "shared abstraction, migration sequencing, coupling 증가가 있을 때만 사용"
+
+model_policies:
+  - asset_id: "complex-case-default-gpt54-high"
+    asset_type: "model_policy"
+    status: "standard"
+    owner: "agent-lab-maintainer"
+    default_on: true
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+      - "docs/FINAL_SCORECARD.md"
+    decision_gate: "keep-unless-better-batch-proven"
+    notes: "현재 complex-case 최고 품질 기본값"
+
+  - asset_id: "mini-triage-context-downshift"
+    asset_type: "model_policy"
+    status: "conditional"
+    owner: "agent-lab-maintainer"
+    default_on: false
+    last_validated_batch: "initial-batch-2026-q2"
+    evidence:
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+      - "docs/MODEL_EFFORT_BENCHMARK_PLAN.md"
+    decision_gate: "needs-refined-confirmatory-batch"
+    notes: "triage/context 비용 최적화 후보"
+
+  - asset_id: "execution-xhigh-default"
+    asset_type: "model_policy"
+    status: "deprecated"
+    owner: "agent-lab-maintainer"
+    default_on: false
+    last_validated_batch: "refined-batch-2026-q2"
+    evidence:
+      - "docs/RECOMMENDED_AGENT_SKILL_MODEL_CONFIGS.md"
+      - "docs/FINAL_SCORECARD.md"
+    replacement_candidate: "complex-case-default-gpt54-high"
+    decision_gate: "retain-for-investigation-only"
+    notes: "조사성 예외 run 이외에는 사용 금지"

@@ -94,6 +94,15 @@
 - [x] dossier / backlog / roadmap에 pilot 자산 반영
 - [x] 공개 저장소 sync 준비
 
+### Phase 9. Operating Governance And Registry
+
+- [x] 운영 governance 모델 문서화
+- [x] asset registry schema 정의
+- [x] asset status baseline 분류
+- [x] machine-readable asset registry 작성
+- [x] dossier에 governance 자산 반영
+- [x] 공개 저장소 sync 준비
+
 ## Current Assumptions
 
 - actual benchmark execution은 로컬 `codex exec`를 사용한다
@@ -103,7 +112,7 @@
 
 ## Completion Rule
 
-이 checklist에서 `Phase 1`부터 `Phase 8`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
+이 checklist에서 `Phase 1`부터 `Phase 9`까지 모두 완료되면 현재 프로그램 배치를 완료로 간주한다.
 
 ## Current Outcome
 
